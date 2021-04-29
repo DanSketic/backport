@@ -1,5 +1,5 @@
 {
-    "name": "wiledia/backport",
+    "name": "dansketic/backport",
     "description": "backport",
     "type": "library",
     "keywords": ["laravel", "backport", "backend", "wiledia"],
