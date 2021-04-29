@@ -1,14 +1,14 @@
 {
-    "name": "wiledia/backport",
+    "name": "dansketic/backport",
     "description": "backport",
     "type": "library",
-    "keywords": ["laravel", "backport", "backend", "wiledia"],
-    "homepage": "https://github.com/wiledia/backport",
+    "keywords": ["laravel", "backport", "backend", "dansketic"],
+    "homepage": "https://github.com/dansketic/backport",
     "license": "MIT",
     "authors": [
         {
-            "name": "wiledia",
-            "email": "hellow@wiledia.com"
+            "name": "DanSketic",
+            "email": "dev@dansketic.com"
         }
     ],
     "require": {
