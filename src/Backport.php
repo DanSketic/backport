@@ -1,12 +1,12 @@
 <?php
 
-namespace Wiledia\Backport;
+namespace DanSketic\Backport;
 
 use Closure;
-use Wiledia\Backport\Controllers\AuthController;
-use Wiledia\Backport\Layout\Content;
-use Wiledia\Backport\Traits\HasAssets;
-use Wiledia\Backport\Widgets\Navbar;
+use DanSketic\Backport\Controllers\AuthController;
+use DanSketic\Backport\Layout\Content;
+use DanSketic\Backport\Traits\HasAssets;
+use DanSketic\Backport\Widgets\Navbar;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
@@ -65,7 +65,7 @@ class Backport
      * @param $model
      * @param Closure $callable
      *
-     * @return \Wiledia\Backport\Grid
+     * @return \DanSketic\Backport\Grid
      *
      * @deprecated since v1.6.1
      */
@@ -78,7 +78,7 @@ class Backport
      * @param $model
      * @param Closure $callable
      *
-     * @return \Wiledia\Backport\Form
+     * @return \DanSketic\Backport\Form
      *
      *  @deprecated since v1.6.1
      */
@@ -91,7 +91,7 @@ class Backport
      * @param $model
      * @param Closure $callable
      *
-     * @return \Wiledia\Backport\Settings
+     * @return \DanSketic\Backport\Settings
      *
      *  @deprecated since v1.6.1
      */
@@ -105,7 +105,7 @@ class Backport
      *
      * @param $model
      *
-     * @return \Wiledia\Backport\Tree
+     * @return \DanSketic\Backport\Tree
      */
     public function tree($model, Closure $callable = null)
     {
@@ -130,7 +130,7 @@ class Backport
     /**
      * @param Closure $callable
      *
-     * @return \Wiledia\Backport\Layout\Content
+     * @return \DanSketic\Backport\Layout\Content
      *
      * @deprecated since v1.6.1
      */
@@ -218,7 +218,7 @@ class Backport
     /**
      * Get navbar object.
      *
-     * @return \Wiledia\Backport\Widgets\Navbar
+     * @return \DanSketic\Backport\Widgets\Navbar
      */
     public function getNavbar()
     {
@@ -244,7 +244,7 @@ class Backport
         app('router')->group($attributes, function ($router) {
 
             /* @var \Illuminate\Routing\Router $router */
-            $router->namespace('Wiledia\Backport\Controllers')->group(function ($router) {
+            $router->namespace('DanSketic\Backport\Controllers')->group(function ($router) {
 
                 /* @var \Illuminate\Routing\Router $router */
                 $router->resource('auth/users', 'UserController');
@@ -279,7 +279,7 @@ class Backport
 
         app('router')->group($attributes, function ($router) {
             /* @var \Illuminate\Routing\Router $router */
-            $router->namespace('Wiledia\Backport\Controllers\Logs')->group(function ($router) {
+            $router->namespace('DanSketic\Backport\Controllers\Logs')->group(function ($router) {
 
                 /* @var \Illuminate\Routing\Router $router */
                 $router->resource('logs/operation', 'OperationController', ['only' => ['index', 'destroy']]);

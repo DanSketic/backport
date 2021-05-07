@@ -1,9 +1,9 @@
 <?php
 
-namespace Wiledia\Backport\Auth;
+namespace DanSketic\Backport\Auth;
 
-use Wiledia\Backport\Facades\Backport;
-use Wiledia\Backport\Middleware\Pjax;
+use DanSketic\Backport\Facades\Backport;
+use DanSketic\Backport\Middleware\Pjax;
 use Illuminate\Support\Facades\Auth;
 
 class Permission

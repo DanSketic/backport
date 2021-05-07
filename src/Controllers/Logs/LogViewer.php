@@ -1,8 +1,8 @@
 <?php
 
-namespace Wiledia\Backport\Controllers\Logs;
+namespace DanSketic\Backport\Controllers\Logs;
 
-use Wiledia\Backport\Extension;
+use DanSketic\Backport\Extension;
 
 /**
  * Class LogViewer.

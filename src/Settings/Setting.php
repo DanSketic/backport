@@ -1,6 +1,6 @@
 <?php
 
-namespace Wiledia\Backport\Settings;
+namespace DanSketic\Backport\Settings;
 
 use Illuminate\Database\Eloquent\Model;
 

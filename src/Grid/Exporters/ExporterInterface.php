@@ -1,6 +1,6 @@
 <?php
 
-namespace Wiledia\Backport\Grid\Exporters;
+namespace DanSketic\Backport\Grid\Exporters;
 
 interface ExporterInterface
 {

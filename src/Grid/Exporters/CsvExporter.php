@@ -1,6 +1,6 @@
 <?php
 
-namespace Wiledia\Backport\Grid\Exporters;
+namespace DanSketic\Backport\Grid\Exporters;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;

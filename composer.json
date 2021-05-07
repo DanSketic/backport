@@ -2,13 +2,13 @@
     "name": "dansketic/backport",
     "description": "backport",
     "type": "library",
-    "keywords": ["laravel", "backport", "backend", "wiledia"],
-    "homepage": "https://github.com/wiledia/backport",
+    "keywords": ["laravel", "backport", "backend", "dansketic"],
+    "homepage": "https://github.com/dansketic/backport",
     "license": "MIT",
     "authors": [
         {
-            "name": "wiledia",
-            "email": "hellow@wiledia.com"
+            "name": "dansketic",
+            "email": "dev@dansketic.com"
         }
     ],
     "require": {
@@ -27,7 +27,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Wiledia\\Backport\\": "src/"
+            "DanSketic\\Backport\\": "src/"
         },
         "files": [
             "src/helpers.php"
@@ -52,10 +52,10 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Wiledia\\Backport\\BackportServiceProvider"
+                "DanSketic\\Backport\\BackportServiceProvider"
             ],
             "aliases": {
-                "Backport": "Wiledia\\Backport\\Facades\\Backport"
+                "Backport": "DanSketic\\Backport\\Facades\\Backport"
             }
         }
     }

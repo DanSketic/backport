@@ -1,9 +1,9 @@
 <?php
 
-namespace Wiledia\Backport\Form;
+namespace DanSketic\Backport\Form;
 
-use Wiledia\Backport\Backport;
-use Wiledia\Backport\Form;
+use DanSketic\Backport\Backport;
+use DanSketic\Backport\Form;
 use Illuminate\Support\Collection;
 
 /**
@@ -84,7 +84,7 @@ class NestedForm
     protected $original = [];
 
     /**
-     * @var \Wiledia\Backport\Form
+     * @var \DanSketic\Backport\Form
      */
     protected $form;
 
@@ -217,7 +217,7 @@ class NestedForm
                 $value = $field->prepare($value);
             }
 
-            if (($field instanceof \Wiledia\Backport\Form\Field\Hidden) || $value != $field->original()) {
+            if (($field instanceof \DanSketic\Backport\Form\Field\Hidden) || $value != $field->original()) {
                 if (is_array($columns)) {
                     foreach ($columns as $name => $column) {
                         array_set($prepared, $column, $value[$name]);

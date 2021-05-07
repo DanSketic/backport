@@ -1,8 +1,8 @@
 <?php
 
-namespace Wiledia\Backport\Settings\Field;
+namespace DanSketic\Backport\Settings\Field;
 
-use Wiledia\Backport\Settings;
+use DanSketic\Backport\Settings;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\URL;
 use Symfony\Component\HttpFoundation\File\UploadedFile;

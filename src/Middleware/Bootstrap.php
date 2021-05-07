@@ -1,11 +1,11 @@
 <?php
 
-namespace Wiledia\Backport\Middleware;
+namespace DanSketic\Backport\Middleware;
 
-use Wiledia\Backport\Backport;
-use Wiledia\Backport\Form;
-use Wiledia\Backport\Settings;
-use Wiledia\Backport\Grid;
+use DanSketic\Backport\Backport;
+use DanSketic\Backport\Form;
+use DanSketic\Backport\Settings;
+use DanSketic\Backport\Grid;
 use Illuminate\Http\Request;
 
 class Bootstrap

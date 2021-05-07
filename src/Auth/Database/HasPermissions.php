@@ -1,6 +1,6 @@
 <?php
 
-namespace Wiledia\Backport\Auth\Database;
+namespace DanSketic\Backport\Auth\Database;
 
 use Illuminate\Support\Collection;
 

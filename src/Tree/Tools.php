@@ -1,8 +1,8 @@
 <?php
 
-namespace Wiledia\Backport\Tree;
+namespace DanSketic\Backport\Tree;
 
-use Wiledia\Backport\Tree;
+use DanSketic\Backport\Tree;
 use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Support\Collection;

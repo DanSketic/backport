@@ -1,8 +1,8 @@
 <?php
 
-namespace Wiledia\Backport\Grid\Displayers;
+namespace DanSketic\Backport\Grid\Displayers;
 
-use Wiledia\Backport\Backport;
+use DanSketic\Backport\Backport;
 
 class Radio extends AbstractDisplayer
 {

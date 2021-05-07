@@ -1,6 +1,6 @@
 <?php
 
-namespace Wiledia\Backport\Grid;
+namespace DanSketic\Backport\Grid;
 
 trait HasElementNames
 {

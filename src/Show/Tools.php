@@ -1,8 +1,8 @@
 <?php
 
-namespace Wiledia\Backport\Show;
+namespace DanSketic\Backport\Show;
 
-use Wiledia\Backport\Backport;
+use DanSketic\Backport\Backport;
 use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Support\Collection;

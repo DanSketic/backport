@@ -1,6 +1,6 @@
 <?php
 
-namespace Wiledia\Backport\Grid\Filter;
+namespace DanSketic\Backport\Grid\Filter;
 
 class In extends AbstractFilter
 {

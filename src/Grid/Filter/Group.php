@@ -1,8 +1,8 @@
 <?php
 
-namespace Wiledia\Backport\Grid\Filter;
+namespace DanSketic\Backport\Grid\Filter;
 
-use Wiledia\Backport\Backport;
+use DanSketic\Backport\Backport;
 use Illuminate\Support\Collection;
 
 class Group extends AbstractFilter

@@ -1,8 +1,8 @@
 <?php
 
-namespace Wiledia\Backport\Grid\Filter\Presenter;
+namespace DanSketic\Backport\Grid\Filter\Presenter;
 
-use Wiledia\Backport\Grid\Filter\AbstractFilter;
+use DanSketic\Backport\Grid\Filter\AbstractFilter;
 
 abstract class Presenter
 {

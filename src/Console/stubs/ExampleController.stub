@@ -3,11 +3,11 @@
 namespace DummyNamespace;
 
 use App\Http\Controllers\Controller;
-use Wiledia\Backport\Controllers\HasResourceActions;
-use Wiledia\Backport\Form;
-use Wiledia\Backport\Grid;
-use Wiledia\Backport\Layout\Content;
-use Wiledia\Backport\Show;
+use DanSketic\Backport\Controllers\HasResourceActions;
+use DanSketic\Backport\Form;
+use DanSketic\Backport\Grid;
+use DanSketic\Backport\Layout\Content;
+use DanSketic\Backport\Show;
 
 class ExampleController extends Controller
 {

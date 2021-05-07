@@ -1,9 +1,9 @@
 <?php
 
-namespace Wiledia\Backport\Form\Field;
+namespace DanSketic\Backport\Form\Field;
 
 use Closure;
-use Wiledia\Backport\Form\Field;
+use DanSketic\Backport\Form\Field;
 
 class Display extends Field
 {

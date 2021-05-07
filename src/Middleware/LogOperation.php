@@ -1,9 +1,9 @@
 <?php
 
-namespace Wiledia\Backport\Middleware;
+namespace DanSketic\Backport\Middleware;
 
-use Wiledia\Backport\Auth\Database\OperationLog as OperationLogModel;
-use Wiledia\Backport\Facades\Backport;
+use DanSketic\Backport\Auth\Database\OperationLog as OperationLogModel;
+use DanSketic\Backport\Facades\Backport;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 

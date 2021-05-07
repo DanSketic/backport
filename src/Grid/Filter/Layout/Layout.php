@@ -1,8 +1,8 @@
 <?php
 
-namespace Wiledia\Backport\Grid\Filter\Layout;
+namespace DanSketic\Backport\Grid\Filter\Layout;
 
-use Wiledia\Backport\Grid\Filter;
+use DanSketic\Backport\Grid\Filter;
 use Illuminate\Support\Collection;
 
 class Layout

@@ -1,17 +1,17 @@
 <?php
 
-namespace Wiledia\Backport\Facades;
+namespace DanSketic\Backport\Facades;
 
 use Illuminate\Support\Facades\Facade;
 
 /**
  * Class Admin.
  *
- * @method static \Wiledia\Backport\Grid grid($model, \Closure $callable)
- * @method static \Wiledia\Backport\Form form($model, \Closure $callable)
- * @method static \Wiledia\Backport\Show show($model, $callable = null)
- * @method static \Wiledia\Backport\Tree tree($model, \Closure $callable = null)
- * @method static \Wiledia\Backport\Layout\Content content(\Closure $callable = null)
+ * @method static \DanSketic\Backport\Grid grid($model, \Closure $callable)
+ * @method static \DanSketic\Backport\Form form($model, \Closure $callable)
+ * @method static \DanSketic\Backport\Show show($model, $callable = null)
+ * @method static \DanSketic\Backport\Tree tree($model, \Closure $callable = null)
+ * @method static \DanSketic\Backport\Layout\Content content(\Closure $callable = null)
  * @method static \Illuminate\Contracts\View\Factory|\Illuminate\View\View|void css($css = null)
  * @method static \Illuminate\Contracts\View\Factory|\Illuminate\View\View|void js($js = null)
  * @method static \Illuminate\Contracts\View\Factory|\Illuminate\View\View|void script($script = '')
@@ -26,6 +26,6 @@ class Backport extends Facade
 {
     protected static function getFacadeAccessor()
     {
-        return \Wiledia\Backport\Backport::class;
+        return \DanSketic\Backport\Backport::class;
     }
 }

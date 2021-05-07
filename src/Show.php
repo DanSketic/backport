@@ -1,11 +1,11 @@
 <?php
 
-namespace Wiledia\Backport;
+namespace DanSketic\Backport;
 
-use Wiledia\Backport\Show\Divider;
-use Wiledia\Backport\Show\Field;
-use Wiledia\Backport\Show\Panel;
-use Wiledia\Backport\Show\Relation;
+use DanSketic\Backport\Show\Divider;
+use DanSketic\Backport\Show\Field;
+use DanSketic\Backport\Show\Panel;
+use DanSketic\Backport\Show\Relation;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;

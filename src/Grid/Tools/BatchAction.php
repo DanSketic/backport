@@ -1,8 +1,8 @@
 <?php
 
-namespace Wiledia\Backport\Grid\Tools;
+namespace DanSketic\Backport\Grid\Tools;
 
-use Wiledia\Backport\Grid;
+use DanSketic\Backport\Grid;
 
 abstract class BatchAction
 {

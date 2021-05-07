@@ -1,8 +1,8 @@
 <?php
 
-namespace Wiledia\Backport\Settings;
+namespace DanSketic\Backport\Settings;
 
-use Wiledia\Backport\Settings;
+use DanSketic\Backport\Settings;
 use Illuminate\Support\Collection;
 
 class Tab

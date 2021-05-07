@@ -1,7 +1,7 @@
 <?php
 
-use Wiledia\Backport\Auth\Database\Administrator;
-use Wiledia\Backport\Auth\Database\OperationLog;
+use DanSketic\Backport\Auth\Database\Administrator;
+use DanSketic\Backport\Auth\Database\OperationLog;
 
 class OperationLogTest extends TestCase
 {

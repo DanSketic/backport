@@ -1,11 +1,11 @@
 <?php
 
-namespace Wiledia\Backport\Traits;
+namespace DanSketic\Backport\Traits;
 
-use Wiledia\Backport\Form;
-use Wiledia\Backport\Settings;
-use Wiledia\Backport\Grid;
-use Wiledia\Backport\Tree;
+use DanSketic\Backport\Form;
+use DanSketic\Backport\Settings;
+use DanSketic\Backport\Grid;
+use DanSketic\Backport\Tree;
 
 trait AdminBuilder
 {

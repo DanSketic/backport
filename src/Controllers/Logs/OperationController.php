@@ -1,10 +1,10 @@
 <?php
 
-namespace Wiledia\Backport\Controllers\Logs;
+namespace DanSketic\Backport\Controllers\Logs;
 
-use Wiledia\Backport\Auth\Database\OperationLog;
-use Wiledia\Backport\Grid;
-use Wiledia\Backport\Layout\Content;
+use DanSketic\Backport\Auth\Database\OperationLog;
+use DanSketic\Backport\Grid;
+use DanSketic\Backport\Layout\Content;
 use Illuminate\Routing\Controller;
 
 class OperationController extends Controller

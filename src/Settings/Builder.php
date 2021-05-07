@@ -1,10 +1,10 @@
 <?php
 
-namespace Wiledia\Backport\Settings;
+namespace DanSketic\Backport\Settings;
 
-use Wiledia\Backport\Backport;
-use Wiledia\Backport\Settings;
-use Wiledia\Backport\Settings\Field\Hidden;
+use DanSketic\Backport\Backport;
+use DanSketic\Backport\Settings;
+use DanSketic\Backport\Settings\Field\Hidden;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Str;

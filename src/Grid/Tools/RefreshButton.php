@@ -1,8 +1,8 @@
 <?php
 
-namespace Wiledia\Backport\Grid\Tools;
+namespace DanSketic\Backport\Grid\Tools;
 
-use Wiledia\Backport\Backport;
+use DanSketic\Backport\Backport;
 
 class RefreshButton extends AbstractTool
 {

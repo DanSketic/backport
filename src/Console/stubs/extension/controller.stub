@@ -2,7 +2,7 @@
 
 namespace :namespace\Http\Controllers;
 
-use Wiledia\Backport\Layout\Content;
+use DanSketic\Backport\Layout\Content;
 use Illuminate\Routing\Controller;
 
 class :class_nameController extends Controller

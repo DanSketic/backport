@@ -1,8 +1,8 @@
 <?php
 
-namespace Wiledia\Backport\Grid\Tools;
+namespace DanSketic\Backport\Grid\Tools;
 
-use Wiledia\Backport\Backport;
+use DanSketic\Backport\Backport;
 
 class FilterButton extends AbstractTool
 {
@@ -17,7 +17,7 @@ class FilterButton extends AbstractTool
     protected $btnClassName;
 
     /**
-     * @return \Wiledia\Backport\Grid\Filter
+     * @return \DanSketic\Backport\Grid\Filter
      */
     protected function filter()
     {

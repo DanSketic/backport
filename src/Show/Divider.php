@@ -1,6 +1,6 @@
 <?php
 
-namespace Wiledia\Backport\Show;
+namespace DanSketic\Backport\Show;
 
 class Divider extends Field
 {

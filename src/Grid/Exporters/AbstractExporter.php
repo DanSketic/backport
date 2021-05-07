@@ -1,13 +1,13 @@
 <?php
 
-namespace Wiledia\Backport\Grid\Exporters;
+namespace DanSketic\Backport\Grid\Exporters;
 
-use Wiledia\Backport\Grid;
+use DanSketic\Backport\Grid;
 
 abstract class AbstractExporter implements ExporterInterface
 {
     /**
-     * @var \Wiledia\Backport\Grid
+     * @var \DanSketic\Backport\Grid
      */
     protected $grid;
 

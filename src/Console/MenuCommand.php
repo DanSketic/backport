@@ -1,8 +1,8 @@
 <?php
 
-namespace Wiledia\Backport\Console;
+namespace DanSketic\Backport\Console;
 
-use Wiledia\Backport\Facades\Backport;
+use DanSketic\Backport\Facades\Backport;
 use Illuminate\Console\Command;
 
 class MenuCommand extends Command

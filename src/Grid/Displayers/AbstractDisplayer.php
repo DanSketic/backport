@@ -1,9 +1,9 @@
 <?php
 
-namespace Wiledia\Backport\Grid\Displayers;
+namespace DanSketic\Backport\Grid\Displayers;
 
-use Wiledia\Backport\Grid;
-use Wiledia\Backport\Grid\Column;
+use DanSketic\Backport\Grid;
+use DanSketic\Backport\Grid\Column;
 
 abstract class AbstractDisplayer
 {

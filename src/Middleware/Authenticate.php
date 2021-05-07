@@ -1,9 +1,9 @@
 <?php
 
-namespace Wiledia\Backport\Middleware;
+namespace DanSketic\Backport\Middleware;
 
 use Closure;
-use Wiledia\Backport\Backport;
+use DanSketic\Backport\Backport;
 use Illuminate\Support\Facades\Auth;
 
 class Authenticate

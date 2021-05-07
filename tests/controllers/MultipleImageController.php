@@ -3,11 +3,11 @@
 namespace Tests\Controllers;
 
 use App\Http\Controllers\Controller;
-use Wiledia\Backport\Controllers\ModelForm;
-use Wiledia\Backport\Facades\Backport;
-use Wiledia\Backport\Form;
-use Wiledia\Backport\Grid;
-use Wiledia\Backport\Layout\Content;
+use DanSketic\Backport\Controllers\ModelForm;
+use DanSketic\Backport\Facades\Backport;
+use DanSketic\Backport\Form;
+use DanSketic\Backport\Grid;
+use DanSketic\Backport\Layout\Content;
 use Tests\Models\MultipleImage;
 
 class MultipleImageController extends Controller

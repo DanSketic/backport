@@ -1,9 +1,9 @@
 <?php
 
-namespace Wiledia\Backport\Settings;
+namespace DanSketic\Backport\Settings;
 
-use Wiledia\Backport\Backport;
-use Wiledia\Backport\Settings;
+use DanSketic\Backport\Backport;
+use DanSketic\Backport\Settings;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Support\Arr;

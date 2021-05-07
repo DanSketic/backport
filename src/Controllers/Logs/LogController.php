@@ -1,9 +1,9 @@
 <?php
 
-namespace Wiledia\Backport\Controllers\Logs;
+namespace DanSketic\Backport\Controllers\Logs;
 
-use Wiledia\Backport\Facades\Backport;
-use Wiledia\Backport\Layout\Content;
+use DanSketic\Backport\Facades\Backport;
+use DanSketic\Backport\Layout\Content;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 

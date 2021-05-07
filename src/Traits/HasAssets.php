@@ -1,6 +1,6 @@
 <?php
 
-namespace Wiledia\Backport\Traits;
+namespace DanSketic\Backport\Traits;
 
 trait HasAssets
 {

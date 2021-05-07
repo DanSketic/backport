@@ -1,6 +1,6 @@
 <?php
 
-namespace Wiledia\Backport\Layout;
+namespace DanSketic\Backport\Layout;
 
 use Closure;
 use Illuminate\Contracts\Support\Renderable;

@@ -1,8 +1,8 @@
 <?php
 
-namespace Wiledia\Backport\Settings\Field;
+namespace DanSketic\Backport\Settings\Field;
 
-use Wiledia\Backport\Settings\Field;
+use DanSketic\Backport\Settings\Field;
 
 class Textarea extends Field
 {

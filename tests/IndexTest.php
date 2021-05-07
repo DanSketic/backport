@@ -1,6 +1,6 @@
 <?php
 
-use Wiledia\Backport\Auth\Database\Administrator;
+use DanSketic\Backport\Auth\Database\Administrator;
 
 class IndexTest extends TestCase
 {

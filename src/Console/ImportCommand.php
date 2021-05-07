@@ -1,8 +1,8 @@
 <?php
 
-namespace Wiledia\Backport\Console;
+namespace DanSketic\Backport\Console;
 
-use Wiledia\Backport\Backport;
+use DanSketic\Backport\Backport;
 use Illuminate\Console\Command;
 
 class ImportCommand extends Command

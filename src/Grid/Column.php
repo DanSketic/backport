@@ -1,10 +1,10 @@
 <?php
 
-namespace Wiledia\Backport\Grid;
+namespace DanSketic\Backport\Grid;
 
 use Closure;
-use Wiledia\Backport\Grid;
-use Wiledia\Backport\Grid\Displayers\AbstractDisplayer;
+use DanSketic\Backport\Grid;
+use DanSketic\Backport\Grid\Displayers\AbstractDisplayer;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;

@@ -2,8 +2,8 @@
 
 namespace Tests\Models;
 
-use Wiledia\Backport\Traits\AdminBuilder;
-use Wiledia\Backport\Traits\ModelTree;
+use DanSketic\Backport\Traits\AdminBuilder;
+use DanSketic\Backport\Traits\ModelTree;
 use Illuminate\Database\Eloquent\Model;
 
 class Tree extends Model

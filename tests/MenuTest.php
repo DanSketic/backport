@@ -1,7 +1,7 @@
 <?php
 
-use Wiledia\Backport\Auth\Database\Administrator;
-use Wiledia\Backport\Auth\Database\Menu;
+use DanSketic\Backport\Auth\Database\Administrator;
+use DanSketic\Backport\Auth\Database\Menu;
 
 class MenuTest extends TestCase
 {

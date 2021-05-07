@@ -1,8 +1,8 @@
 <?php
 
-namespace Wiledia\Backport\Grid\Filter\Presenter;
+namespace DanSketic\Backport\Grid\Filter\Presenter;
 
-use Wiledia\Backport\Backport;
+use DanSketic\Backport\Backport;
 
 class Text extends Presenter
 {

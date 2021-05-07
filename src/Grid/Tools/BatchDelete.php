@@ -1,6 +1,6 @@
 <?php
 
-namespace Wiledia\Backport\Grid\Tools;
+namespace DanSketic\Backport\Grid\Tools;
 
 class BatchDelete extends BatchAction
 {

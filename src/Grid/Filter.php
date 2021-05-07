@@ -1,11 +1,11 @@
 <?php
 
-namespace Wiledia\Backport\Grid;
+namespace DanSketic\Backport\Grid;
 
-use Wiledia\Backport\Grid\Filter\AbstractFilter;
-use Wiledia\Backport\Grid\Filter\Group;
-use Wiledia\Backport\Grid\Filter\Layout\Layout;
-use Wiledia\Backport\Grid\Filter\Scope;
+use DanSketic\Backport\Grid\Filter\AbstractFilter;
+use DanSketic\Backport\Grid\Filter\Group;
+use DanSketic\Backport\Grid\Filter\Layout\Layout;
+use DanSketic\Backport\Grid\Filter\Scope;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Support\Collection;
@@ -594,7 +594,7 @@ class Filter implements Renderable
     public function __call($method, $arguments)
     {
         if (in_array($method, $this->supports)) {
-            $className = '\\Wiledia\\Backport\\Grid\\Filter\\'.ucfirst($method);
+            $className = '\\DanSketic\\Backport\\Grid\\Filter\\'.ucfirst($method);
 
             return $this->addFilter(new $className(...$arguments));
         }

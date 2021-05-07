@@ -1,8 +1,8 @@
 <?php
 
-namespace Wiledia\Backport\Controllers;
+namespace DanSketic\Backport\Controllers;
 
-use Wiledia\Backport\Backport;
+use DanSketic\Backport\Backport;
 
 class Dashboard
 {

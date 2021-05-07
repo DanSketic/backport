@@ -1,9 +1,9 @@
 <?php
 
-namespace Wiledia\Backport\Grid;
+namespace DanSketic\Backport\Grid;
 
-use Wiledia\Backport\Grid;
-use Wiledia\Backport\Middleware\Pjax;
+use DanSketic\Backport\Grid;
+use DanSketic\Backport\Middleware\Pjax;
 use Illuminate\Database\Eloquent\Model as EloquentModel;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;

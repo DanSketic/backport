@@ -1,9 +1,9 @@
 <?php
 
-namespace Wiledia\Backport\Grid;
+namespace DanSketic\Backport\Grid;
 
-use Wiledia\Backport\Grid;
-use Wiledia\Backport\Grid\Exporters\CsvExporter;
+use DanSketic\Backport\Grid;
+use DanSketic\Backport\Grid\Exporters\CsvExporter;
 
 class Exporter
 {

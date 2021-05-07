@@ -1,10 +1,10 @@
 <?php
 
-namespace Wiledia\Backport\Controllers;
+namespace DanSketic\Backport\Controllers;
 
-use Wiledia\Backport\Facades\Backport;
-use Wiledia\Backport\Form;
-use Wiledia\Backport\Layout\Content;
+use DanSketic\Backport\Facades\Backport;
+use DanSketic\Backport\Form;
+use DanSketic\Backport\Layout\Content;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;

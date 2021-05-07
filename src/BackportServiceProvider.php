@@ -1,6 +1,6 @@
 <?php
 
-namespace Wiledia\Backport;
+namespace DanSketic\Backport;
 
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Wiledia\Backport\Layout;
+namespace DanSketic\Backport\Layout;
 
 interface Buildable
 {

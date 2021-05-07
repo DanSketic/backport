@@ -1,12 +1,12 @@
 <?php
 
-namespace Wiledia\Backport\Grid;
+namespace DanSketic\Backport\Grid;
 
-use Wiledia\Backport\Grid;
-use Wiledia\Backport\Grid\Tools\AbstractTool;
-use Wiledia\Backport\Grid\Tools\BatchActions;
-use Wiledia\Backport\Grid\Tools\FilterButton;
-use Wiledia\Backport\Grid\Tools\RefreshButton;
+use DanSketic\Backport\Grid;
+use DanSketic\Backport\Grid\Tools\AbstractTool;
+use DanSketic\Backport\Grid\Tools\BatchActions;
+use DanSketic\Backport\Grid\Tools\FilterButton;
+use DanSketic\Backport\Grid\Tools\RefreshButton;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Support\Collection;
 

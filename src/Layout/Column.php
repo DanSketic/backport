@@ -1,8 +1,8 @@
 <?php
 
-namespace Wiledia\Backport\Layout;
+namespace DanSketic\Backport\Layout;
 
-use Wiledia\Backport\Grid;
+use DanSketic\Backport\Grid;
 use Illuminate\Contracts\Support\Renderable;
 
 class Column implements Buildable

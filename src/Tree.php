@@ -1,9 +1,9 @@
 <?php
 
-namespace Wiledia\Backport;
+namespace DanSketic\Backport;
 
 use Closure;
-use Wiledia\Backport\Tree\Tools;
+use DanSketic\Backport\Tree\Tools;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Database\Eloquent\Model;
 

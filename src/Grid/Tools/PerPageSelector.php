@@ -1,9 +1,9 @@
 <?php
 
-namespace Wiledia\Backport\Grid\Tools;
+namespace DanSketic\Backport\Grid\Tools;
 
-use Wiledia\Backport\Backport;
-use Wiledia\Backport\Grid;
+use DanSketic\Backport\Backport;
+use DanSketic\Backport\Grid;
 
 class PerPageSelector extends AbstractTool
 {

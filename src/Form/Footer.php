@@ -1,8 +1,8 @@
 <?php
 
-namespace Wiledia\Backport\Form;
+namespace DanSketic\Backport\Form;
 
-use Wiledia\Backport\Backport;
+use DanSketic\Backport\Backport;
 use Illuminate\Contracts\Support\Renderable;
 
 class Footer implements Renderable

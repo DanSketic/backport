@@ -1,18 +1,18 @@
 <?php
 
-namespace Wiledia\Backport;
+namespace DanSketic\Backport;
 
 use Closure;
-use Wiledia\Backport\Exception\Handler;
-use Wiledia\Backport\Grid\Column;
-use Wiledia\Backport\Grid\Displayers;
-use Wiledia\Backport\Grid\Exporter;
-use Wiledia\Backport\Grid\Exporters\AbstractExporter;
-use Wiledia\Backport\Grid\Filter;
-use Wiledia\Backport\Grid\HasElementNames;
-use Wiledia\Backport\Grid\Model;
-use Wiledia\Backport\Grid\Row;
-use Wiledia\Backport\Grid\Tools;
+use DanSketic\Backport\Exception\Handler;
+use DanSketic\Backport\Grid\Column;
+use DanSketic\Backport\Grid\Displayers;
+use DanSketic\Backport\Grid\Exporter;
+use DanSketic\Backport\Grid\Exporters\AbstractExporter;
+use DanSketic\Backport\Grid\Filter;
+use DanSketic\Backport\Grid\HasElementNames;
+use DanSketic\Backport\Grid\Model;
+use DanSketic\Backport\Grid\Row;
+use DanSketic\Backport\Grid\Tools;
 use Illuminate\Database\Eloquent\Model as Eloquent;
 use Illuminate\Database\Eloquent\Relations;
 use Illuminate\Support\Collection;
@@ -26,7 +26,7 @@ class Grid
     /**
      * The grid data model instance.
      *
-     * @var \Wiledia\Backport\Grid\Model
+     * @var \DanSketic\Backport\Grid\Model
      */
     protected $model;
 
@@ -82,7 +82,7 @@ class Grid
     /**
      * The grid Filter.
      *
-     * @var \Wiledia\Backport\Grid\Filter
+     * @var \DanSketic\Backport\Grid\Filter
      */
     protected $filter;
 
