@@ -2,9 +2,18 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateBackportTables extends Migration
 {
+    /**
+     * {@inheritdoc}
+     */
+    public function getConnection()
+    {
+        return config('backport.database.connection') ?: config('database.default');
+    }
+
     /**
      * Run the migrations.
      *
@@ -12,9 +21,7 @@ class CreateBackportTables extends Migration
      */
     public function up()
     {
-        $connection = config('backport.database.connection') ?: config('database.default');
-
-        Schema::connection($connection)->create(config('backport.database.users_table'), function (Blueprint $table) {
+        Schema::create(config('backport.database.users_table'), function (Blueprint $table) {
             $table->increments('id');
             $table->string('username', 190)->unique();
             $table->string('password', 60);
@@ -24,23 +31,23 @@ class CreateBackportTables extends Migration
             $table->timestamps();
         });
 
-        Schema::connection($connection)->create(config('backport.database.roles_table'), function (Blueprint $table) {
+        Schema::create(config('backport.database.roles_table'), function (Blueprint $table) {
             $table->increments('id');
             $table->string('name', 50)->unique();
-            $table->string('slug', 50);
+            $table->string('slug', 50)->unique();
             $table->timestamps();
         });
 
-        Schema::connection($connection)->create(config('backport.database.permissions_table'), function (Blueprint $table) {
+        Schema::create(config('backport.database.permissions_table'), function (Blueprint $table) {
             $table->increments('id');
             $table->string('name', 50)->unique();
-            $table->string('slug', 50);
+            $table->string('slug', 50)->unique();
             $table->string('http_method')->nullable();
             $table->text('http_path')->nullable();
             $table->timestamps();
         });
 
-        Schema::connection($connection)->create(config('backport.database.menu_table'), function (Blueprint $table) {
+        Schema::create(config('backport.database.menu_table'), function (Blueprint $table) {
             $table->increments('id');
             $table->integer('parent_id')->default(0);
             $table->integer('order')->default(0);
@@ -52,35 +59,35 @@ class CreateBackportTables extends Migration
             $table->timestamps();
         });
 
-        Schema::connection($connection)->create(config('backport.database.role_users_table'), function (Blueprint $table) {
+        Schema::create(config('backport.database.role_users_table'), function (Blueprint $table) {
             $table->integer('role_id');
             $table->integer('user_id');
             $table->index(['role_id', 'user_id']);
             $table->timestamps();
         });
 
-        Schema::connection($connection)->create(config('backport.database.role_permissions_table'), function (Blueprint $table) {
+        Schema::create(config('backport.database.role_permissions_table'), function (Blueprint $table) {
             $table->integer('role_id');
             $table->integer('permission_id');
             $table->index(['role_id', 'permission_id']);
             $table->timestamps();
         });
 
-        Schema::connection($connection)->create(config('backport.database.user_permissions_table'), function (Blueprint $table) {
+        Schema::create(config('backport.database.user_permissions_table'), function (Blueprint $table) {
             $table->integer('user_id');
             $table->integer('permission_id');
             $table->index(['user_id', 'permission_id']);
             $table->timestamps();
         });
 
-        Schema::connection($connection)->create(config('backport.database.role_menu_table'), function (Blueprint $table) {
+        Schema::create(config('backport.database.role_menu_table'), function (Blueprint $table) {
             $table->integer('role_id');
             $table->integer('menu_id');
             $table->index(['role_id', 'menu_id']);
             $table->timestamps();
         });
 
-        Schema::connection($connection)->create(config('backport.database.operation_log_table'), function (Blueprint $table) {
+        Schema::create(config('backport.database.operation_log_table'), function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id');
             $table->string('path');
@@ -91,7 +98,7 @@ class CreateBackportTables extends Migration
             $table->timestamps();
         });
 
-        Schema::connection($connection)->create(config('backport.database.settings_table'), function (Blueprint $table) {
+        Schema::create(config('backport.database.settings_table'), function (Blueprint $table) {
             $table->increments('id');
             $table->string('key')->unique();
             $table->string('name');
@@ -101,8 +108,6 @@ class CreateBackportTables extends Migration
             $table->tinyInteger('active');
             $table->timestamps();
         });
-
-
     }
 
     /**
@@ -112,17 +117,15 @@ class CreateBackportTables extends Migration
      */
     public function down()
     {
-        $connection = config('backport.database.connection') ?: config('database.default');
-
-        Schema::connection($connection)->dropIfExists(config('backport.database.users_table'));
-        Schema::connection($connection)->dropIfExists(config('backport.database.roles_table'));
-        Schema::connection($connection)->dropIfExists(config('backport.database.permissions_table'));
-        Schema::connection($connection)->dropIfExists(config('backport.database.menu_table'));
-        Schema::connection($connection)->dropIfExists(config('backport.database.user_permissions_table'));
-        Schema::connection($connection)->dropIfExists(config('backport.database.role_users_table'));
-        Schema::connection($connection)->dropIfExists(config('backport.database.role_permissions_table'));
-        Schema::connection($connection)->dropIfExists(config('backport.database.role_menu_table'));
-        Schema::connection($connection)->dropIfExists(config('backport.database.operation_log_table'));
-        Schema::connection($connection)->dropIfExists(config('backport.database.settings_table'));
+        Schema::dropIfExists(config('backport.database.users_table'));
+        Schema::dropIfExists(config('backport.database.roles_table'));
+        Schema::dropIfExists(config('backport.database.permissions_table'));
+        Schema::dropIfExists(config('backport.database.menu_table'));
+        Schema::dropIfExists(config('backport.database.user_permissions_table'));
+        Schema::dropIfExists(config('backport.database.role_users_table'));
+        Schema::dropIfExists(config('backport.database.role_permissions_table'));
+        Schema::dropIfExists(config('backport.database.role_menu_table'));
+        Schema::dropIfExists(config('backport.database.operation_log_table'));
+        Schema::dropIfExists(config('backport.database.settings_table'));
     }
 }

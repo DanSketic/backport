@@ -2,6 +2,7 @@
 
 namespace DanSketic\Backport\Form\Field;
 
+use DanSketic\Backport\Facades\Backport;
 use DanSketic\Backport\Form\Field;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Arr;
@@ -37,15 +38,20 @@ class Tags extends Field
     /**
      * @var array
      */
+    protected $separators = [',', ';', '，', '；', ' '];
+
+    /**
+     * @var array
+     */
     protected static $css = [
-        '/vendor/backport/vendors/custom/select2/select2.css',
+        '/vendor/backport/AdminLTE/plugins/select2/select2.min.css',
     ];
 
     /**
      * @var array
      */
     protected static $js = [
-        '/vendor/backport/vendors/custom/select2/select2.full.js',
+        '/vendor/backport/AdminLTE/plugins/select2/select2.full.min.js',
     ];
 
     /**
@@ -53,7 +59,7 @@ class Tags extends Field
      */
     public function fill($data)
     {
-        $this->value = array_get($data, $this->column);
+        $this->value = Arr::get($data, $this->column);
 
         if (is_array($this->value) && $this->keyAsValue) {
             $this->value = array_column($this->value, $this->visibleColumn, $this->key);
@@ -113,6 +119,25 @@ class Tags extends Field
     }
 
     /**
+     * Set Tag Separators.
+     *
+     * @param array $separators
+     *
+     * @return $this
+     */
+    public function separators($separators = [])
+    {
+        if ($separators instanceof Collection or $separators instanceof Arrayable) {
+            $separators = $separators->toArray();
+        }
+        if (!empty($separators)) {
+            $this->separators = $separators;
+        }
+
+        return $this;
+    }
+
+    /**
      * Set save Action.
      *
      * @param \Closure $saveAction
@@ -167,10 +192,11 @@ class Tags extends Field
      */
     public function render()
     {
-        $this->script = "$(\"{$this->getElementClassSelector()}\").select2({
-            tags: true,
-            tokenSeparators: [',']
-        });";
+        if (!$this->shouldRender()) {
+            return '';
+        }
+
+        $this->setupScript();
 
         if ($this->keyAsValue) {
             $options = $this->value + $this->options;
@@ -178,9 +204,50 @@ class Tags extends Field
             $options = array_unique(array_merge($this->value, $this->options));
         }
 
-        return parent::render()->with([
+        return parent::fieldRender([
             'options'    => $options,
             'keyAsValue' => $this->keyAsValue,
         ]);
+    }
+
+    protected function setupScript()
+    {
+        $separators = json_encode($this->separators);
+        $separatorsStr = implode('', $this->separators);
+        $this->script = <<<JS
+$("{$this->getElementClassSelector()}").select2({
+    tags: true,
+    tokenSeparators: $separators,
+    createTag: function(params) {
+        if (/[$separatorsStr]/.test(params.term)) {
+            var str = params.term.trim().replace(/[$separatorsStr]*$/, '');
+            return { id: str, text: str }
+        } else {
+            return null;
+        }
+    }
+});
+JS;
+
+        Backport::script(
+            <<<'JS'
+$(document).off('keyup', '.select2-selection--multiple .select2-search__field').on('keyup', '.select2-selection--multiple .select2-search__field', function (event) {
+    try {
+        if (event.keyCode == 13) {
+            var $this = $(this), optionText = $this.val();
+            if (optionText != "" && $this.find("option[value='" + optionText + "']").length === 0) {
+                var $select = $this.parents('.select2-container').prev("select");
+                var newOption = new Option(optionText, optionText, true, true);
+                $select.append(newOption).trigger('change');
+                $this.val('');
+                $select.select2('close');
+            }
+        }
+    } catch (e) {
+        console.error(e);
+    }
+});
+JS
+        );
     }
 }

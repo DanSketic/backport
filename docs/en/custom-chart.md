@@ -1,14 +1,14 @@
 # Custom chart
 
-`laravel-admin 1.5` has removed all the chart components. If you want to add chart components to the page, you can refer to the following process
+`backport 1.5` has removed all the chart components. If you want to add chart components to the page, you can refer to the following process
 
 Use `chartjs` for example, first download [chartjs](http://chartjs.org/), put it under the public directory, such as in the `public/vendor/chartjs` directory
 
 Then import the component in `app/Admin/bootstrap.php`:
 ```php
-use Encore\Admin\Facades\Admin;
+use DanSketic\Backport\Facades\Backport;
 
-Admin::js('/vendor/chartjs/dist/Chart.min.js');
+Backport::js('/vendor/chartjs/dist/Chart.min.js');
 
 ```
 
@@ -64,12 +64,12 @@ And then you can introduce this chart view anywhere on the page:
 ```php
 public function index()
 {
-    return Admin::content(function (Content $content) {
+    return Backport::content(function (Content $content) {
 
         $content->header('chart');
         $content->description('.....');
         
-        $content->body(view('admin.charts.bar'));
+        $content->body(view('backport.charts.bar'));
     });
 }
 

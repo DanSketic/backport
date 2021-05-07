@@ -41,14 +41,14 @@ $router->resource('demo/users', UserController::class);
 
 Open `http://localhost:8000/admin/auth/menu`, add menu link and refresh the page, then you can find a link item in left menu bar.
 
-> Where `uri` fills in the path part that does not contain the prefix of the route, such as the full path `http://localhost:8000/admin/demo/users`, just input `demo/users`, If you want to add an external link, just fill in the full url, such as `http://laravel-admin.org/`.
+> Where `uri` fills in the path part that does not contain the prefix of the route, such as the full path `http://localhost:8000/admin/demo/users`, just input `demo/users`, If you want to add an external link, just fill in the full url, such as `http://backport.org/`.
 
 ### Menu translations
 
 append menu titles in menu_titles index at your language files.
 For example 'Work Units' title:
 
-in resources/lang/es/admin.php
+in resources/lang/es/backport.php
 ```php
 ...
 // lowercase and replace spaces with _

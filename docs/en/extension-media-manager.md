@@ -7,14 +7,14 @@ This tool for manage local files
 ## Installation
 
 ```
-$ composer require laravel-admin-ext/media-manager -vvv
+$ composer require backport-ext/media-manager -vvv
 
 $ php artisan admin:import media-manager
 ```
 
 ## Configuration
 
-Open  `config/admin.php` specify the disk you want to manage
+Open  `config/backport.php` specify the disk you want to manage
 
 ```php
 

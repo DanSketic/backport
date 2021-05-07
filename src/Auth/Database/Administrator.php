@@ -2,7 +2,7 @@
 
 namespace DanSketic\Backport\Auth\Database;
 
-use DanSketic\Backport\Traits\AdminBuilder;
+use DanSketic\Backport\Traits\DefaultDatetimeFormat;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Database\Eloquent\Model;
@@ -16,7 +16,9 @@ use Illuminate\Support\Facades\Storage;
  */
 class Administrator extends Model implements AuthenticatableContract
 {
-    use Authenticatable, AdminBuilder, HasPermissions;
+    use Authenticatable;
+    use HasPermissions;
+    use DefaultDatetimeFormat;
 
     protected $fillable = ['username', 'password', 'name', 'avatar'];
 
@@ -45,13 +47,19 @@ class Administrator extends Model implements AuthenticatableContract
      */
     public function getAvatarAttribute($avatar)
     {
+        if (url()->isValidUrl($avatar)) {
+            return $avatar;
+        }
+
         $disk = config('backport.upload.disk');
 
         if ($avatar && array_key_exists($disk, config('filesystems.disks'))) {
             return Storage::disk(config('backport.upload.disk'))->url($avatar);
         }
 
-        return admin_asset('/vendor/backport/media/images/no_avatar.jpg');
+        $default = config('backport.default_avatar') ?: '/vendor/backport/AdminLTE/dist/img/user2-160x160.jpg';
+
+        return admin_asset($default);
     }
 
     /**
@@ -59,7 +67,7 @@ class Administrator extends Model implements AuthenticatableContract
      *
      * @return BelongsToMany
      */
-    public function roles() : BelongsToMany
+    public function roles(): BelongsToMany
     {
         $pivotTable = config('backport.database.role_users_table');
 
@@ -73,7 +81,7 @@ class Administrator extends Model implements AuthenticatableContract
      *
      * @return BelongsToMany
      */
-    public function permissions() : BelongsToMany
+    public function permissions(): BelongsToMany
     {
         $pivotTable = config('backport.database.user_permissions_table');
 

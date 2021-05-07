@@ -4,7 +4,7 @@ Added support for developers, available in development to help improve efficienc
 
 Installation:
 ```php
-composer require laravel-admin-ext/helpers
+composer require backport-ext/helpers
 
 php artisan admin:import helpers
 ```

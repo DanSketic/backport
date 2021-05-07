@@ -5,7 +5,7 @@ use DanSketic\Backport\Auth\Database\Role;
 
 class RolesTest extends TestCase
 {
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 

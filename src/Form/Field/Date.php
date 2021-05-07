@@ -4,8 +4,16 @@ namespace DanSketic\Backport\Form\Field;
 
 class Date extends Text
 {
+    protected static $css = [
+        '/vendor/backport/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css',
+    ];
 
-    protected $format = 'yyyy-mm-dd';
+    protected static $js = [
+        '/vendor/backport/moment/min/moment-with-locales.min.js',
+        '/vendor/backport/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js',
+    ];
+
+    protected $format = 'YYYY-MM-DD';
 
     public function format($format)
     {
@@ -26,14 +34,13 @@ class Date extends Text
     public function render()
     {
         $this->options['format'] = $this->format;
-        $this->options['locale'] = config('app.locale');
+        $this->options['locale'] = array_key_exists('locale', $this->options) ? $this->options['locale'] : config('app.locale');
         $this->options['allowInputToggle'] = true;
-        $this->options['autoclose'] = '!0';
-        $this->options['minView'] = '2';
 
-        $this->script = "$('#{$this->getElementClassString()}').datetimepicker(".json_encode($this->options).');';
+        $this->script = "$('{$this->getElementClassSelector()}').parent().datetimepicker(".json_encode($this->options).');';
 
-        $this->prepend('<i class="fa fa-calendar fa-fw"></i>');
+        $this->prepend('<i class="fa fa-calendar fa-fw"></i>')
+            ->defaultAttribute('style', 'width: 110px');
 
         return parent::render();
     }

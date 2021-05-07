@@ -6,13 +6,21 @@ use DanSketic\Backport\Form\Field;
 
 class DateRange extends Field
 {
+    protected static $css = [
+        '/vendor/backport/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css',
+    ];
+
+    protected static $js = [
+        '/vendor/backport/moment/min/moment-with-locales.min.js',
+        '/vendor/backport/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js',
+    ];
 
     protected $format = 'YYYY-MM-DD';
 
     /**
      * Column name.
      *
-     * @var string
+     * @var array
      */
     protected $column = [];
 
@@ -28,6 +36,9 @@ class DateRange extends Field
         $this->options(['format' => $this->format]);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function prepare($value)
     {
         if ($value === '') {

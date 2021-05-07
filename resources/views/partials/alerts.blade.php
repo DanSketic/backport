@@ -1,71 +1,41 @@
 @if($error = session()->get('error'))
-    <div class="alert alert-danger alert-dismissable fade show" role="alert">
-        <div class="alert-icon"><i class="fas fa-exclamation-triangle"></i></div>
-        <div class="alert-text">
-            <strong>{{ array_get($error->get('title'), 0) }}</strong> {!!  array_get($error->get('message'), 0) !!}
-        </div>
-        <div class="alert-close">
-			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-			<span aria-hidden="true"><i class="fa fa-times"></i></span>
-			</button>
-		</div>
+    <div class="alert alert-danger alert-dismissable">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+        <h4><i class="icon fa fa-ban"></i>{{ \Illuminate\Support\Arr::get($error->get('title'), 0) }}</h4>
+        <p>{!!  \Illuminate\Support\Arr::get($error->get('message'), 0) !!}</p>
     </div>
 @elseif ($errors = session()->get('errors'))
     @if ($errors->hasBag('error'))
-      <div class="alert alert-danger alert-dismissable fade show" role="alert">
-          <div class="alert-icon"><i class="fas fa-exclamation-triangle"></i></div>
-          <div class="alert-text">
-              @foreach($errors->getBag("error")->toArray() as $message)
-                  <p>{!!  array_get($message, 0) !!}</p>
-              @endforeach
-          </div>
-          <div class="alert-close">
-  			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-  			<span aria-hidden="true"><i class="fa fa-times"></i></span>
-  			</button>
-  		  </div>
+      <div class="alert alert-danger alert-dismissable">
+
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+        @foreach($errors->getBag("error")->toArray() as $message)
+            <p>{!!  \Illuminate\Support\Arr::get($message, 0) !!}</p>
+        @endforeach
       </div>
     @endif
 @endif
 
 @if($success = session()->get('success'))
-    <div class="alert alert-success alert-dismissable fade show" role="alert">
-        <div class="alert-icon"><i class="fas fa-check"></i></div>
-        <div class="alert-text">
-            <strong>{{ array_get($success->get('title'), 0) }}</strong> {!!  array_get($success->get('message'), 0) !!}
-        </div>
-        <div class="alert-close">
-          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-          <span aria-hidden="true"><i class="fa fa-times"></i></span>
-          </button>
-        </div>
+    <div class="alert alert-success alert-dismissable">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+        <h4><i class="icon fa fa-check"></i>{{ \Illuminate\Support\Arr::get($success->get('title'), 0) }}</h4>
+        <p>{!!  \Illuminate\Support\Arr::get($success->get('message'), 0) !!}</p>
     </div>
 @endif
 
 @if($info = session()->get('info'))
-    <div class="alert alert-info alert-dismissable fade show" role="alert">
-        <div class="alert-icon"><i class="fas fa-info-circle"></i></div>
-        <div class="alert-text">
-            <strong>{{ array_get($info->get('title'), 0) }}</strong> {!!  array_get($info->get('message'), 0) !!}
-        </div>
-        <div class="alert-close">
-          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-          <span aria-hidden="true"><i class="fa fa-times"></i></span>
-          </button>
-        </div>
+    <div class="alert alert-info alert-dismissable">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+        <h4><i class="icon fa fa-info"></i>{{ \Illuminate\Support\Arr::get($info->get('title'), 0) }}</h4>
+        <p>{!!  \Illuminate\Support\Arr::get($info->get('message'), 0) !!}</p>
     </div>
 @endif
 
 @if($warning = session()->get('warning'))
-    <div class="alert alert-warning alert-dismissable fade show" role="alert">
-        <div class="alert-icon"><i class="fas fa-info-circle"></i></div>
-        <div class="alert-text">
-            <strong>{{ array_get($warning->get('title'), 0) }}</strong> {!!  array_get($warning->get('message'), 0) !!}
-        </div>
-        <div class="alert-close">
-          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-          <span aria-hidden="true"><i class="fa fa-times"></i></span>
-          </button>
-        </div>
+    <div class="alert alert-warning alert-dismissable">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+        <h4><i class="icon fa fa-warning"></i>{{ \Illuminate\Support\Arr::get($warning->get('title'), 0) }}</h4>
+        <p>{!!  \Illuminate\Support\Arr::get($warning->get('message'), 0) !!}</p>
     </div>
 @endif

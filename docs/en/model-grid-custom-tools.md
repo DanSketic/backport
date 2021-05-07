@@ -9,8 +9,8 @@ First define the tool class `app/Admin/Extensions/Tools/UserGender.php`：
 
 namespace App\Admin\Extensions\Tools;
 
-use Encore\Admin\Admin;
-use Encore\Admin\Grid\Tools\AbstractTool;
+use DanSketic\Backport\Backport;
+use DanSketic\Backport\Grid\Tools\AbstractTool;
 use Illuminate\Support\Facades\Request;
 
 class UserGender extends AbstractTool
@@ -34,7 +34,7 @@ EOT;
 
     public function render()
     {
-        Admin::script($this->script());
+        Backport::script($this->script());
 
         $options = [
             'all'   => 'All',
@@ -42,12 +42,12 @@ EOT;
             'f'     => 'Female',
         ];
 
-        return view('admin.tools.gender', compact('options'));
+        return view('backport.tools.gender', compact('options'));
     }
 }
 
 ```
-The blade file of view `admin.tools.gender` is `resources/views/admin/tools/gender.blade.php`:
+The blade file of view `backport.tools.gender` is `resources/views/admin/tools/gender.blade.php`:
 ```php
 <div class="btn-group" data-toggle="buttons">
     @foreach($options as $option => $label)
@@ -98,7 +98,7 @@ First define the tool class `app/Admin/Extensions/Tools/ReleasePost.php`：
 
 namespace App\Admin\Extensions\Tools;
 
-use Encore\Admin\Grid\Tools\BatchAction;
+use DanSketic\Backport\Grid\Tools\BatchAction;
 
 class ReleasePost extends BatchAction
 {

@@ -2,6 +2,8 @@
 
 namespace DanSketic\Backport\Grid\Filter;
 
+use Illuminate\Support\Arr;
+
 class In extends AbstractFilter
 {
     /**
@@ -18,7 +20,7 @@ class In extends AbstractFilter
      */
     public function condition($inputs)
     {
-        $value = array_get($inputs, $this->column);
+        $value = Arr::get($inputs, $this->column);
 
         if (is_null($value)) {
             return;

@@ -2,14 +2,15 @@
 
 use Illuminate\Routing\Router;
 
-Admin::registerAuthRoutes();
+Backport::routes();
 
 Route::group([
     'prefix'        => config('backport.route.prefix'),
     'namespace'     => config('backport.route.namespace'),
     'middleware'    => config('backport.route.middleware'),
+    'as'            => config('backport.route.prefix') . '.',
 ], function (Router $router) {
 
-    $router->get('/', 'HomeController@index');
+    $router->get('/', 'HomeController@index')->name('home');
 
 });

@@ -3,10 +3,12 @@
 namespace DanSketic\Backport\Traits;
 
 use DanSketic\Backport\Form;
-use DanSketic\Backport\Settings;
 use DanSketic\Backport\Grid;
 use DanSketic\Backport\Tree;
 
+/**
+ * @deprecated
+ */
 trait AdminBuilder
 {
     /**
@@ -26,8 +28,6 @@ trait AdminBuilder
      */
     public static function form(\Closure $callback)
     {
-        Form::registerBuiltinFields();
-
         return new Form(new static(), $callback);
     }
 

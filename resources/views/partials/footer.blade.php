@@ -1,29 +1,18 @@
-{{-- begin: Footer --}}
-<footer class="bp-footer d-flex align-items-center justify-content-between">
+<!-- Main Footer -->
+<footer class="main-footer">
     <!-- To the right -->
-    <div class="bp-footer-user-panel bp-bg-light rounded-lg d-flex align-items-center">
+    <div class="pull-right hidden-xs">
+        @if(config('backport.show_environment'))
+            <strong>Env</strong>&nbsp;&nbsp; {!! config('app.env') !!}
+        @endif
 
-        <a class="bp-footer-frontend" href="{{ url('/') }}">
-            <i class="far fa-window"></i>{{ trans('admin.frontend') }}
-        </a>
+        &nbsp;&nbsp;&nbsp;&nbsp;
 
-        <div class="bp-footer-user border-right border-left">
-            <img alt="{{ Backport::user()->name }}" src="{{ Backport::user()->avatar }}"><strong>{{ Backport::user()->name }}</strong>
-        </div>
+        @if(config('backport.show_version'))
+        <strong>Version</strong>&nbsp;&nbsp; {!! \DanSketic\Backport\Backport::VERSION !!}
+        @endif
 
-        <a class="bp-footer-logout" href="{{ admin_base_path('auth/logout') }}">
-            <i class="fas fa-sign-out-alt"></i>{{ trans('admin.logout') }}
-        </a>
     </div>
     <!-- Default to the left -->
-
-    <div class="d-flex align-items-center">
-        @if(config('backport.show_version'))
-            <img alt="Backport Logo" src="{{ asset('vendor/backport/media/logos/logo-footer.png') }}" />&nbsp;&nbsp;<strong class="text-muted">{!! \DanSketic\Backport\Backport::VERSION !!}</strong>
-        @endif
-        @if(config('backport.show_environment'))
-            <span class="ml-2">{!! env('APP_ENV') !!}</span>
-        @endif
-    </div>
+    <strong>Powered by <a href="https://github.com/z-song/backport" target="_blank">backport</a></strong>
 </footer>
-{{-- end: Footer --}}

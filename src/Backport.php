@@ -8,12 +8,13 @@ use DanSketic\Backport\Layout\Content;
 use DanSketic\Backport\Traits\HasAssets;
 use DanSketic\Backport\Widgets\Navbar;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 use InvalidArgumentException;
 
 /**
- * Class Admin.
+ * Class Backport.
  */
 class Backport
 {
@@ -24,7 +25,7 @@ class Backport
      *
      * @var string
      */
-    const VERSION = '1.0.4';
+    const VERSION = '1.8.11';
 
     /**
      * @var Navbar
@@ -32,9 +33,19 @@ class Backport
     protected $navbar;
 
     /**
+     * @var array
+     */
+    protected $menu = [];
+
+    /**
      * @var string
      */
     public static $metaTitle;
+
+    /**
+     * @var string
+     */
+    public static $favicon;
 
     /**
      * @var array
@@ -44,15 +55,15 @@ class Backport
     /**
      * @var []Closure
      */
-    public static $booting;
+    protected static $bootingCallbacks = [];
 
     /**
      * @var []Closure
      */
-    public static $booted;
+    protected static $bootedCallbacks = [];
 
     /**
-     * Returns the long version of backport.
+     * Returns the long version of Backport.
      *
      * @return string The long application version
      */
@@ -104,6 +115,7 @@ class Backport
      * Build a tree.
      *
      * @param $model
+     * @param Closure|null $callable
      *
      * @return \DanSketic\Backport\Tree
      */
@@ -164,13 +176,46 @@ class Backport
      */
     public function menu()
     {
-        $menuModel = config('backport.database.menu_model');
+        if (!empty($this->menu)) {
+            return $this->menu;
+        }
 
-        return (new $menuModel())->toTree();
+        $menuClass = config('backport.database.menu_model');
+
+        /** @var Menu $menuModel */
+        $menuModel = new $menuClass();
+
+        return $this->menu = $menuModel->toTree();
+    }
+
+    /**
+     * @param array $menu
+     *
+     * @return array
+     */
+    public function menuLinks($menu = [])
+    {
+        if (empty($menu)) {
+            $menu = $this->menu();
+        }
+
+        $links = [];
+
+        foreach ($menu as $item) {
+            if (!empty($item['children'])) {
+                $links = array_merge($links, $this->menuLinks($item['children']));
+            } else {
+                $links[] = Arr::only($item, ['title', 'uri', 'icon']);
+            }
+        }
+
+        return $links;
     }
 
     /**
      * Set admin title.
+     *
+     * @param string $title
      *
      * @return void
      */
@@ -182,7 +227,7 @@ class Backport
     /**
      * Get admin title.
      *
-     * @return Config
+     * @return string
      */
     public function title()
     {
@@ -190,13 +235,39 @@ class Backport
     }
 
     /**
-     * Get current login user.
+     * @param null|string $favicon
      *
-     * @return mixed
+     * @return string|void
+     */
+    public function favicon($favicon = null)
+    {
+        if (is_null($favicon)) {
+            return static::$favicon;
+        }
+
+        static::$favicon = $favicon;
+    }
+
+    /**
+     * Get the currently authenticated user.
+     *
+     * @return \Illuminate\Contracts\Auth\Authenticatable|null
      */
     public function user()
     {
-        return Auth::guard('backport')->user();
+        return $this->guard()->user();
+    }
+
+    /**
+     * Attempt to get the guard from the local cache.
+     *
+     * @return \Illuminate\Contracts\Auth\Guard|\Illuminate\Contracts\Auth\StatefulGuard
+     */
+    public function guard()
+    {
+        $guard = config('backport.auth.guard') ?: 'admin';
+
+        return Auth::guard($guard);
     }
 
     /**
@@ -230,11 +301,23 @@ class Backport
     }
 
     /**
-     * Register the auth routes.
+     * Register the backport builtin routes.
+     *
+     * @return void
+     *
+     * @deprecated Use Backport::routes() instead();
+     */
+    public function registerAuthRoutes()
+    {
+        $this->routes();
+    }
+
+    /**
+     * Register the backport builtin routes.
      *
      * @return void
      */
-    public function registerAuthRoutes()
+    public function routes()
     {
         $attributes = [
             'prefix'     => config('backport.route.prefix'),
@@ -243,24 +326,29 @@ class Backport
 
         app('router')->group($attributes, function ($router) {
 
-            /* @var \Illuminate\Routing\Router $router */
-            $router->namespace('DanSketic\Backport\Controllers')->group(function ($router) {
+            /* @var \Illuminate\Support\Facades\Route $router */
+            $router->namespace('\DanSketic\Backport\Controllers')->group(function ($router) {
 
                 /* @var \Illuminate\Routing\Router $router */
-                $router->resource('auth/users', 'UserController');
-                $router->resource('auth/roles', 'RoleController');
-                $router->resource('auth/permissions', 'PermissionController');
-                $router->resource('auth/menu', 'MenuController', ['except' => ['create']]);
-                $router->resource('auth/logs', 'Logs\OperationController', ['only' => ['index', 'destroy']]);
+                $router->resource('auth/users', 'UserController')->names('backport.auth.users');
+                $router->resource('auth/roles', 'RoleController')->names('backport.auth.roles');
+                $router->resource('auth/permissions', 'PermissionController')->names('backport.auth.permissions');
+                $router->resource('auth/menu', 'MenuController', ['except' => ['create']])->names('backport.auth.menu');
+                $router->resource('auth/logs', 'LogController', ['only' => ['index', 'destroy']])->names('backport.auth.logs');
+
+                $router->post('_handle_form_', 'HandleController@handleForm')->name('backport.handle-form');
+                $router->post('_handle_action_', 'HandleController@handleAction')->name('backport.handle-action');
+                $router->get('_handle_selectable_', 'HandleController@handleSelectable')->name('backport.handle-selectable');
+                $router->get('_handle_renderable_', 'HandleController@handleRenderable')->name('backport.handle-renderable');
             });
 
             $authController = config('backport.auth.controller', AuthController::class);
 
             /* @var \Illuminate\Routing\Router $router */
-            $router->get('auth/login', $authController.'@getLogin');
+            $router->get('auth/login', $authController.'@getLogin')->name('backport.login');
             $router->post('auth/login', $authController.'@postLogin');
-            $router->get('auth/logout', $authController.'@getLogout');
-            $router->get('auth/setting', $authController.'@getSetting');
+            $router->get('auth/logout', $authController.'@getLogout')->name('backport.logout');
+            $router->get('auth/setting', $authController.'@getSetting')->name('backport.setting');
             $router->put('auth/setting', $authController.'@putSetting');
         });
     }
@@ -308,7 +396,7 @@ class Backport
      */
     public static function booting(callable $callback)
     {
-        static::$booting[] = $callback;
+        static::$bootingCallbacks[] = $callback;
     }
 
     /**
@@ -316,7 +404,52 @@ class Backport
      */
     public static function booted(callable $callback)
     {
-        static::$booted[] = $callback;
+        static::$bootedCallbacks[] = $callback;
+    }
+
+    /**
+     * Bootstrap the admin application.
+     */
+    public function bootstrap()
+    {
+        $this->fireBootingCallbacks();
+
+        require config('backport.bootstrap', admin_path('bootstrap.php'));
+
+        $this->addAdminAssets();
+
+        $this->fireBootedCallbacks();
+    }
+
+    /**
+     * Add JS & CSS assets to pages.
+     */
+    protected function addAdminAssets()
+    {
+        $assets = Form::collectFieldAssets();
+
+        self::css($assets['css']);
+        self::js($assets['js']);
+    }
+
+    /**
+     * Call the booting callbacks for the admin application.
+     */
+    protected function fireBootingCallbacks()
+    {
+        foreach (static::$bootingCallbacks as $callable) {
+            call_user_func($callable);
+        }
+    }
+
+    /**
+     * Call the booted callbacks for the admin application.
+     */
+    protected function fireBootedCallbacks()
+    {
+        foreach (static::$bootedCallbacks as $callable) {
+            call_user_func($callable);
+        }
     }
 
     /*

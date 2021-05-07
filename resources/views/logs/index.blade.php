@@ -25,7 +25,7 @@
         };
 
         $(document).on('pjax:complete', function(xhr) {
-            $.admin.cleanIntervalId();
+            $.backport.cleanIntervalId();
         });
 
         $('.log-refresh').on('click', function() {
@@ -58,13 +58,13 @@
             $("i", this).toggleClass("fa-play fa-pause");
 
             if (refreshIntervalId) {
-                $.admin.clearIntervalId(refreshIntervalId);
+                $.backport.clearIntervalId(refreshIntervalId);
                 refreshIntervalId = null;
             } else {
                 refreshIntervalId = setInterval(function() {
                     fetch();
                 }, 2000);
-                $.admin.addIntervalId(refreshIntervalId, false);
+                $.backport.addIntervalId(refreshIntervalId, false);
             }
         });
     });

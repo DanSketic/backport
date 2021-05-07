@@ -3,6 +3,7 @@
 namespace DanSketic\Backport\Grid\Filter;
 
 use DanSketic\Backport\Backport;
+use Illuminate\Support\Arr;
 
 class Between extends AbstractFilter
 {
@@ -58,11 +59,15 @@ class Between extends AbstractFilter
      */
     public function condition($inputs)
     {
-        if (!array_has($inputs, $this->column)) {
+        if ($this->ignore) {
             return;
         }
 
-        $this->value = array_get($inputs, $this->column);
+        if (!Arr::has($inputs, $this->column)) {
+            return;
+        }
+
+        $this->value = Arr::get($inputs, $this->column);
 
         $value = array_filter($this->value, function ($val) {
             return $val !== '';
@@ -104,20 +109,20 @@ class Between extends AbstractFilter
      */
     protected function setupDatetime($options = [])
     {
-        $options['format'] = array_get($options, 'format', 'YYYY-MM-DD HH:mm:ss');
-        $options['locale'] = array_get($options, 'locale', config('app.locale'));
+        $options['format'] = Arr::get($options, 'format', 'YYYY-MM-DD HH:mm:ss');
+        $options['locale'] = Arr::get($options, 'locale', config('app.locale'));
 
         $startOptions = json_encode($options);
-        $endOptions = json_encode($options + ['useCurrent' => false, 'pickerPosition' => 'bottom-left']);
+        $endOptions = json_encode($options + ['useCurrent' => false]);
 
         $script = <<<EOT
             $('#{$this->id['start']}').datetimepicker($startOptions);
             $('#{$this->id['end']}').datetimepicker($endOptions);
-            $("#{$this->id['start']}").on("changeDate", function (e) {
-                $('#{$this->id['end']}').datetimepicker('setStartDate', e.date);
+            $("#{$this->id['start']}").on("dp.change", function (e) {
+                $('#{$this->id['end']}').data("DateTimePicker").minDate(e.date);
             });
-            $("#{$this->id['end']}").on("change.datetimepicker", function (e) {
-                $('#{$this->id['start']}').datetimepicker('setEndDate', e.date);
+            $("#{$this->id['end']}").on("dp.change", function (e) {
+                $('#{$this->id['start']}').data("DateTimePicker").maxDate(e.date);
             });
 EOT;
 

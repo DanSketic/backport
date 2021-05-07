@@ -4,6 +4,7 @@ namespace DanSketic\Backport\Console;
 
 use DanSketic\Backport\Backport;
 use Illuminate\Console\Command;
+use Illuminate\Support\Arr;
 
 class ImportCommand extends Command
 {
@@ -19,7 +20,7 @@ class ImportCommand extends Command
      *
      * @var string
      */
-    protected $description = 'Import a backport extension';
+    protected $description = 'Import a Backport extension';
 
     /**
      * Execute the console command.
@@ -30,11 +31,11 @@ class ImportCommand extends Command
     {
         $extension = $this->argument('extension');
 
-        if (empty($extension) || !array_has(Backport::$extensions, $extension)) {
+        if (empty($extension) || !Arr::has(Backport::$extensions, $extension)) {
             $extension = $this->choice('Please choose a extension to import', array_keys(Backport::$extensions));
         }
 
-        $className = array_get(Backport::$extensions, $extension);
+        $className = Arr::get(Backport::$extensions, $extension);
 
         if (!class_exists($className) || !method_exists($className, 'import')) {
             $this->error("Invalid Extension [$className]");

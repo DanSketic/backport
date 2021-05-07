@@ -2,6 +2,9 @@
 
 namespace DanSketic\Backport;
 
+use DanSketic\Backport\Layout\Content;
+use Illuminate\Routing\Router;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 
@@ -13,6 +16,7 @@ class BackportServiceProvider extends ServiceProvider
     protected $commands = [
         Console\AdminCommand::class,
         Console\MakeCommand::class,
+        Console\ControllerCommand::class,
         Console\MenuCommand::class,
         Console\InstallCommand::class,
         Console\PublishCommand::class,
@@ -22,6 +26,12 @@ class BackportServiceProvider extends ServiceProvider
         Console\ResetPasswordCommand::class,
         Console\ExtendCommand::class,
         Console\ExportSeedCommand::class,
+        Console\MinifyCommand::class,
+        Console\FormCommand::class,
+        Console\PermissionCommand::class,
+        Console\ActionCommand::class,
+        Console\GenerateMenuCommand::class,
+        Console\ConfigCommand::class,
     ];
 
     /**
@@ -35,6 +45,7 @@ class BackportServiceProvider extends ServiceProvider
         'admin.log'        => Middleware\LogOperation::class,
         'admin.permission' => Middleware\Permission::class,
         'admin.bootstrap'  => Middleware\Bootstrap::class,
+        'admin.session'    => Middleware\Session::class,
     ];
 
     /**
@@ -49,6 +60,7 @@ class BackportServiceProvider extends ServiceProvider
             'admin.log',
             'admin.bootstrap',
             'admin.permission',
+            // 'admin.session',
         ],
     ];
 
@@ -61,33 +73,89 @@ class BackportServiceProvider extends ServiceProvider
     {
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'backport');
 
-        if (config('backport.https') || config('backport.secure')) {
-            \URL::forceScheme('https');
-            $this->app['request']->server->set('HTTPS', true);
-        }
+        $this->ensureHttps();
 
         if (file_exists($routes = admin_path('routes.php'))) {
             $this->loadRoutesFrom($routes);
         }
 
+        $this->registerPublishing();
+
+        $this->compatibleBlade();
+
+        Blade::directive('box', function ($title) {
+            return "<?php \$box = new \DanSketic\Backport\Widgets\Box({$title}, '";
+        });
+
+        Blade::directive('endbox', function ($expression) {
+            return "'); echo \$box->render(); ?>";
+        });
+    }
+
+    /**
+     * Force to set https scheme if https enabled.
+     *
+     * @return void
+     */
+    protected function ensureHttps()
+    {
+        if (config('backport.https') || config('backport.secure')) {
+            url()->forceScheme('https');
+            $this->app['request']->server->set('HTTPS', true);
+        }
+    }
+
+    /**
+     * Register the package's publishable resources.
+     *
+     * @return void
+     */
+    protected function registerPublishing()
+    {
         if ($this->app->runningInConsole()) {
             $this->publishes([__DIR__.'/../config' => config_path()], 'backport-config');
             $this->publishes([__DIR__.'/../resources/lang' => resource_path('lang')], 'backport-lang');
-//            $this->publishes([__DIR__.'/../resources/views' => resource_path('views/vendor/admin')],           'backport-views');
             $this->publishes([__DIR__.'/../database/migrations' => database_path('migrations')], 'backport-migrations');
             $this->publishes([__DIR__.'/../resources/assets' => public_path('vendor/backport')], 'backport-assets');
         }
+    }
 
-        //remove default feature of double encoding enable in laravel 5.6 or later.
-        $bladeReflectionClass = new \ReflectionClass('\Illuminate\View\Compilers\BladeCompiler');
-        if ($bladeReflectionClass->hasMethod('withoutDoubleEncoding')) {
+    /**
+     * Remove default feature of double encoding enable in laravel 5.6 or later.
+     *
+     * @return void
+     */
+    protected function compatibleBlade()
+    {
+        $reflectionClass = new \ReflectionClass('\Illuminate\View\Compilers\BladeCompiler');
+
+        if ($reflectionClass->hasMethod('withoutDoubleEncoding')) {
             Blade::withoutDoubleEncoding();
         }
+    }
 
-        // Load settings into laravel from database.
-        foreach (Settings\Setting::all(['key', 'value']) as $setting) {
-            config([config('backport.setting.prefix') . '.' . $setting['key'] => $setting['value']]);
-        }
+    /**
+     * Extends laravel router.
+     */
+    protected function macroRouter()
+    {
+        Router::macro('content', function ($uri, $content, $options = []) {
+            return $this->match(['GET', 'HEAD'], $uri, function (Content $layout) use ($content, $options) {
+                return $layout
+                    ->title(Arr::get($options, 'title', ' '))
+                    ->description(Arr::get($options, 'desc', ' '))
+                    ->body($content);
+            });
+        });
+
+        Router::macro('component', function ($uri, $component, $data = [], $options = []) {
+            return $this->match(['GET', 'HEAD'], $uri, function (Content $layout) use ($component, $data, $options) {
+                return $layout
+                    ->title(Arr::get($options, 'title', ' '))
+                    ->description(Arr::get($options, 'desc', ' '))
+                    ->component($component, $data);
+            });
+        });
     }
 
     /**
@@ -102,8 +170,9 @@ class BackportServiceProvider extends ServiceProvider
         $this->registerRouteMiddleware();
 
         $this->commands($this->commands);
-    }
 
+        $this->macroRouter();
+    }
 
     /**
      * Setup auth configuration.
@@ -112,7 +181,7 @@ class BackportServiceProvider extends ServiceProvider
      */
     protected function loadAdminAuthConfig()
     {
-        config(array_dot(config('backport.auth', []), 'auth.'));
+        config(Arr::dot(config('backport.auth', []), 'auth.'));
     }
 
     /**

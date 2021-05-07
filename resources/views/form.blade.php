@@ -1,50 +1,48 @@
-<div class="bp-portlet">
+<div class="box box-info">
+    <div class="box-header with-border">
+        <h3 class="box-title">{{ $form->title() }}</h3>
 
-    <div class="bp-portlet__head">
-        <div class="bp-portlet__head-label">
-            <h4 class="bp-margin-b-0">{{ $form->title() }}</h4>
-        </div>
-        <div class="bp-portlet__head-toolbar">
+        <div class="box-tools">
             {!! $form->renderTools() !!}
         </div>
     </div>
-
-
     <!-- /.box-header -->
     <!-- form start -->
-    {!! $form->open(['class' => "bp-form form-horizontal bp-form--label-right"]) !!}
+    {!! $form->open() !!}
 
-        <div class="bp-portlet__body">
+    <div class="box-body">
 
-            @if(!$tabObj->isEmpty())
-                @include('backport::form.tab', compact('tabObj'))
-            @else
-                <div class="fields-group">
+        @if(!$tabObj->isEmpty())
+            @include('backport::form.tab', compact('tabObj'))
+        @else
+            <div class="fields-group">
 
-                    @if($form->hasRows())
-                        @foreach($form->getRows() as $row)
-                            {!! $row->render() !!}
-                        @endforeach
-                    @else
-                        @foreach($form->fields() as $field)
-                            {!! $field->render() !!}
-                        @endforeach
-                    @endif
+                @if($form->hasRows())
+                    @foreach($form->getRows() as $row)
+                        {!! $row->render() !!}
+                    @endforeach
+                @else
+                    @foreach($layout->columns() as $column)
+                        <div class="col-md-{{ $column->width() }}">
+                            @foreach($column->fields() as $field)
+                                {!! $field->render() !!}
+                            @endforeach
+                        </div>
+                    @endforeach
+                @endif
+            </div>
+        @endif
 
+    </div>
+    <!-- /.box-body -->
 
-                </div>
-            @endif
+    {!! $form->renderFooter() !!}
 
+    @foreach($form->getHiddenFields() as $field)
+        {!! $field->render() !!}
+    @endforeach
 
-        </div>
-        <!-- /.box-body -->
-
-        {!! $form->renderFooter() !!}
-
-        @foreach($form->getHiddenFields() as $field)
-            {!! $field->render() !!}
-        @endforeach
-
-        <!-- /.box-footer -->
+<!-- /.box-footer -->
     {!! $form->close() !!}
 </div>
+

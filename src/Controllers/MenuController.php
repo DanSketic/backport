@@ -24,14 +24,14 @@ class MenuController extends Controller
     public function index(Content $content)
     {
         return $content
-            ->header(trans('admin.menu'))
+            ->title(trans('admin.menu'))
             ->description(trans('admin.list'))
             ->row(function (Row $row) {
                 $row->column(6, $this->treeView()->render());
 
                 $row->column(6, function (Column $column) {
                     $form = new \DanSketic\Backport\Widgets\Form();
-                    $form->action(admin_base_path('auth/menu'));
+                    $form->action(admin_url('auth/menu'));
 
                     $menuModel = config('backport.database.menu_model');
                     $permissionModel = config('backport.database.permissions_model');
@@ -39,6 +39,7 @@ class MenuController extends Controller
 
                     $form->select('parent_id', trans('admin.parent_id'))->options($menuModel::selectOptions());
                     $form->text('title', trans('admin.title'))->rules('required');
+                    $form->icon('icon', trans('admin.icon'))->default('fa-bars')->rules('required')->help($this->iconHelp());
                     $form->text('uri', trans('admin.uri'));
                     $form->multipleSelect('roles', trans('admin.roles'))->options($roleModel::all()->pluck('name', 'id'));
                     if ((new $menuModel())->withPermission()) {
@@ -60,7 +61,7 @@ class MenuController extends Controller
      */
     public function show($id)
     {
-        return redirect()->route('menu.edit', ['id' => $id]);
+        return redirect()->route('backport.auth.menu.edit', ['menu' => $id]);
     }
 
     /**
@@ -70,25 +71,27 @@ class MenuController extends Controller
     {
         $menuModel = config('backport.database.menu_model');
 
-        return $menuModel::tree(function (Tree $tree) {
-            $tree->disableCreate();
+        $tree = new Tree(new $menuModel());
 
-            $tree->branch(function ($branch) {
-                $payload = "<i class='fa {$branch['icon']}'></i>&nbsp;<strong>{$branch['title']}</strong>";
+        $tree->disableCreate();
 
-                if (!isset($branch['children'])) {
-                    if (url()->isValidUrl($branch['uri'])) {
-                        $uri = $branch['uri'];
-                    } else {
-                        $uri = admin_base_path($branch['uri']);
-                    }
+        $tree->branch(function ($branch) {
+            $payload = "<i class='fa {$branch['icon']}'></i>&nbsp;<strong>{$branch['title']}</strong>";
 
-                    $payload .= "&nbsp;&nbsp;&nbsp;<a href=\"$uri\" class=\"dd-nodrag\">$uri</a>";
+            if (!isset($branch['children'])) {
+                if (url()->isValidUrl($branch['uri'])) {
+                    $uri = $branch['uri'];
+                } else {
+                    $uri = admin_url($branch['uri']);
                 }
 
-                return $payload;
-            });
+                $payload .= "&nbsp;&nbsp;&nbsp;<a href=\"$uri\" class=\"dd-nodrag\">$uri</a>";
+            }
+
+            return $payload;
         });
+
+        return $tree;
     }
 
     /**
@@ -102,7 +105,7 @@ class MenuController extends Controller
     public function edit($id, Content $content)
     {
         return $content
-            ->header(trans('admin.menu'))
+            ->title(trans('admin.menu'))
             ->description(trans('admin.edit'))
             ->row($this->form()->edit($id));
     }

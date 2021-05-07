@@ -1,6 +1,6 @@
 <div class="{{$viewClass['form-group']}} {!! !$errors->has($errorKey) ? '' : 'has-error' !!}">
 
-<label for="{{$id}}" class="{{$viewClass['label']}} col-form-label">{{$label}}</label>
+<label for="{{$id}}" class="{{$viewClass['label']}} control-label">{{$label}}</label>
 
     <div class="{{$viewClass['field']}}">
 
@@ -24,7 +24,6 @@
                 @endforeach
             @endif
         </select>
-
 
         @include('backport::form.help-block')
 

@@ -4,7 +4,6 @@ namespace DanSketic\Backport\Auth;
 
 use DanSketic\Backport\Facades\Backport;
 use DanSketic\Backport\Middleware\Pjax;
-use Illuminate\Support\Facades\Auth;
 
 class Permission
 {
@@ -23,13 +22,13 @@ class Permission
 
         if (is_array($permission)) {
             collect($permission)->each(function ($permission) {
-                call_user_func([Permission::class, 'check'], $permission);
+                call_user_func([self::class, 'check'], $permission);
             });
 
             return;
         }
 
-        if (Auth::guard('backport')->user()->cannot($permission)) {
+        if (Backport::user()->cannot($permission)) {
             static::error();
         }
     }
@@ -47,7 +46,7 @@ class Permission
             return true;
         }
 
-        if (!Auth::guard('backport')->user()->inRoles($roles)) {
+        if (!Backport::user()->inRoles($roles)) {
             static::error();
         }
     }
@@ -75,7 +74,7 @@ class Permission
             return true;
         }
 
-        if (Auth::guard('backport')->user()->inRoles($roles)) {
+        if (Backport::user()->inRoles($roles)) {
             static::error();
         }
     }
@@ -101,6 +100,6 @@ class Permission
      */
     public static function isAdministrator()
     {
-        return Auth::guard('backport')->user()->isRole('admin');
+        return Backport::user()->isRole('administrator');
     }
 }

@@ -3,8 +3,9 @@
 namespace DanSketic\Backport\Grid\Tools;
 
 use DanSketic\Backport\Grid;
+use Illuminate\Contracts\Support\Renderable;
 
-abstract class BatchAction
+abstract class BatchAction implements Renderable
 {
     /**
      * @var int
@@ -34,6 +35,13 @@ abstract class BatchAction
         $this->id = $id;
     }
 
+    /**
+     * Set title for this action.
+     *
+     * @param string $title
+     *
+     * @return $this
+     */
     public function setTitle($title)
     {
         $this->title = $title;
@@ -80,6 +88,14 @@ abstract class BatchAction
             $this->grid->getGridBatchName(),
             $this->id
         );
+    }
+
+    /**
+     * @return string
+     */
+    public function render()
+    {
+        return $this->title;
     }
 
     /**

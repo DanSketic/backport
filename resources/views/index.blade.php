@@ -1,22 +1,18 @@
 <!DOCTYPE html>
-<html lang="{{ config('app.locale') }}" class="bp-sweetalert2--nopadding">
+<html lang="{{ config('app.locale') }}">
 <head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="renderer" content="webkit">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ Backport::title() }} @if($header) | {{ $header }}@endif</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-    <!--begin::Web font -->
-    <!--begin::Web font -->
-		<script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.16/webfont.js"></script>
-		<script>
-			WebFont.load({
-                google: {"families":["Poppins:300,400,500,600,700"]},
-                active: function() {
-                    sessionStorage.fonts = true;
-                }
-            });
-        </script>
+
+    @if(!is_null($favicon = Backport::favicon()))
+    <link rel="shortcut icon" href="{{$favicon}}">
+    @endif
+
     {!! Backport::css() !!}
 
     <script src="{{ Backport::jQuery() }}"></script>
@@ -28,52 +24,39 @@
 
 </head>
 
-<body class="bp-page--loading-enabled bp-page--loading bp-sweetalert2--nopadding bp-header--static bp-header-mobile--fixed bp-aside--enabled bp-aside--fixed" id="backport">
-    <div class="bp-grid bp-grid--hor bp-grid--root">
-        <div class="bp-grid__item bp-grid__item--fluid bp-grid bp-grid--ver bp-page">
+<body class="hold-transition {{config('backport.skin')}} {{join(' ', config('backport.layout'))}}">
 
+@if($alert = config('backport.top_alert'))
+    <div style="text-align: center;padding: 5px;font-size: 12px;background-color: #ffffd5;color: #ff0000;">
+        {!! $alert !!}
+    </div>
+@endif
 
-            {{-- include: Sidebar --}}
-            @include('backport::partials.sidebar')
+<div class="wrapper">
 
-            <!-- begin:: Header Mobile -->
-            <div id="bp_header_mobile" class="bp-header-mobile  bp-header-mobile--fixed ">
-              <div class="bp-header-mobile__logo">
-                <a href="{{ admin_url('/') }}" data-reset="menu">
-                    @if(!config('backport.logo'))
-                       <img alt="Logo" src="{{ asset('vendor/backport/media/logos/logo.png') }}" />
-                    @else
-                       {!! config('backport.logo') !!}
-                    @endif
-                </a>
-              </div>
-              <div class="bp-header-mobile__toolbar">
-                <button class="bp-header-mobile__toolbar-toggler bp-header-mobile__toolbar-toggler--left" id="bp_aside_mobile_toggler"><span></span></button>
-              </div>
-            </div>
-            <!-- end:: Header Mobile -->
+    @include('backport::partials.header')
 
+    @include('backport::partials.sidebar')
 
-            <div class="bp-grid__item bp-grid__item--fluid bp-grid bp-grid--hor bp-wrapper" id="pjax-container">
-                <div id="app">
-                    @include('backport::partials.header')
-                    {{-- begin: Content --}}
-                    @yield('content')
-                    {!! Backport::script() !!}
-                    {{-- end: Content --}}
-
-                    {{-- include: Footer --}}
-                    @include('backport::partials.footer')
-                </div>
-            </div>
-
-
+    <div class="content-wrapper" id="pjax-container">
+        {!! Backport::style() !!}
+        <div id="app">
+        @yield('content')
         </div>
+        {!! Backport::script() !!}
+        {!! Backport::html() !!}
     </div>
 
+    @include('backport::partials.footer')
+
+</div>
+
+<button id="totop" title="Go to top" style="display: none;"><i class="fa fa-chevron-up"></i></button>
+
 <script>
-    function BP() {}
-    BP.token = "{{ csrf_token() }}";
+    function LA() {}
+    LA.token = "{{ csrf_token() }}";
+    LA.user = @json($_user_);
 </script>
 
 <!-- REQUIRED JS SCRIPTS -->

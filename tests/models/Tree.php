@@ -2,13 +2,12 @@
 
 namespace Tests\Models;
 
-use DanSketic\Backport\Traits\AdminBuilder;
 use DanSketic\Backport\Traits\ModelTree;
 use Illuminate\Database\Eloquent\Model;
 
 class Tree extends Model
 {
-    use AdminBuilder, ModelTree;
+    use ModelTree;
 
     /**
      * Create a new Eloquent model instance.

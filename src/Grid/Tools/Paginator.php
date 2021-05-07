@@ -4,7 +4,6 @@ namespace DanSketic\Backport\Grid\Tools;
 
 use DanSketic\Backport\Grid;
 use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Support\Facades\Input;
 
 class Paginator extends AbstractTool
 {
@@ -14,13 +13,19 @@ class Paginator extends AbstractTool
     protected $paginator = null;
 
     /**
+     * @var bool
+     */
+    protected $perPageSelector = true;
+
+    /**
      * Create a new Paginator instance.
      *
      * @param Grid $grid
      */
-    public function __construct(Grid $grid)
+    public function __construct(Grid $grid, $perPageSelector = true)
     {
         $this->grid = $grid;
+        $this->perPageSelector = $perPageSelector;
 
         $this->initPaginator();
     }
@@ -35,7 +40,7 @@ class Paginator extends AbstractTool
         $this->paginator = $this->grid->model()->eloquent();
 
         if ($this->paginator instanceof LengthAwarePaginator) {
-            $this->paginator->appends(Input::all());
+            $this->paginator->appends(request()->all());
         }
     }
 
@@ -56,6 +61,10 @@ class Paginator extends AbstractTool
      */
     protected function perPageSelector()
     {
+        if (!$this->perPageSelector) {
+            return;
+        }
+
         return new PerPageSelector($this->grid);
     }
 
@@ -86,12 +95,12 @@ class Paginator extends AbstractTool
      */
     public function render()
     {
-        if (!$this->grid->usePagination()) {
+        if (!$this->grid->showPagination()) {
             return '';
         }
 
-        return '<div class="bp-padding-15 d-flex justify-content-between align-items-center border-top border-bottom"><div>' . $this->paginationRanger() .
-            '</div><div class="text-right">' . $this->perPageSelector() . '</div></div>' .
-            $this->paginationLinks();
+        return $this->paginationRanger().
+            $this->paginationLinks().
+            $this->perPageSelector();
     }
 }

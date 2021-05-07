@@ -7,6 +7,31 @@ use DanSketic\Backport\Form\Field;
 class Text extends Field
 {
     use PlainInput;
+    use HasValuePicker;
+
+    /**
+     * @var string
+     */
+    protected $icon = 'fa-pencil';
+
+    /**
+     * @var bool
+     */
+    protected $withoutIcon = false;
+
+    /**
+     * Set custom fa-icon.
+     *
+     * @param string $icon
+     *
+     * @return $this
+     */
+    public function icon($icon)
+    {
+        $this->icon = $icon;
+
+        return $this;
+    }
 
     /**
      * Render this filed.
@@ -17,17 +42,20 @@ class Text extends Field
     {
         $this->initPlainInput();
 
-        $this->prepend('<i class="fa fa-pencil fa-fw"></i>')
-            ->defaultAttribute('type', 'text')
+        if (!$this->withoutIcon) {
+            $this->prepend('<i class="fa '.$this->icon.' fa-fw"></i>');
+        }
+        $this->defaultAttribute('type', 'text')
             ->defaultAttribute('id', $this->id)
             ->defaultAttribute('name', $this->elementName ?: $this->formatName($this->column))
-            ->defaultAttribute('value', old($this->column, $this->value()))
-            ->defaultAttribute('placeholder', $this->getPlaceholder());
-
-        $this->addVariables([
-            'prepend' => $this->prepend,
-            'append'  => $this->append,
-        ]);
+            ->defaultAttribute('value', old($this->elementName ?: $this->column, $this->value()))
+            ->defaultAttribute('class', 'form-control '.$this->getElementClassString())
+            ->defaultAttribute('placeholder', $this->getPlaceholder())
+            ->mountPicker()
+            ->addVariables([
+                'prepend' => $this->prepend,
+                'append'  => $this->append,
+            ]);
 
         return parent::render();
     }
@@ -41,57 +69,11 @@ class Text extends Field
      */
     public function inputmask($options)
     {
-        $options = $this->json_encode_options($options);
+        $options = json_encode_options($options);
 
-        $this->script = "$('#{$this->getElementClassString()}').inputmask($options);";
+        $this->script = "$('{$this->getElementClassSelector()}').inputmask($options);";
 
         return $this;
-    }
-
-    /**
-     * Encode options to Json.
-     *
-     * @param array $options
-     *
-     * @return $json
-     */
-    protected function json_encode_options($options)
-    {
-        $data = $this->prepare_options($options);
-
-        $json = json_encode($data['options']);
-
-        $json = str_replace($data['toReplace'], $data['original'], $json);
-
-        return $json;
-    }
-
-    /**
-     * Prepare options.
-     *
-     * @param array $options
-     *
-     * @return array
-     */
-    protected function prepare_options($options)
-    {
-        $original = [];
-        $toReplace = [];
-
-        foreach ($options as $key => &$value) {
-            if (is_array($value)) {
-                $subArray = $this->prepare_options($value);
-                $value = $subArray['options'];
-                $original = array_merge($original, $subArray['original']);
-                $toReplace = array_merge($toReplace, $subArray['toReplace']);
-            } elseif (preg_match('/function.*?/', $value)) {
-                $original[] = $value;
-                $value = "%{$key}%";
-                $toReplace[] = "\"{$value}\"";
-            }
-        }
-
-        return compact('original', 'toReplace', 'options');
     }
 
     /**
@@ -112,5 +94,17 @@ class Text extends Field
         $datalist .= '</datalist>';
 
         return $this->append($datalist);
+    }
+
+    /**
+     * show no icon in font of input.
+     *
+     * @return $this
+     */
+    public function withoutIcon()
+    {
+        $this->withoutIcon = true;
+
+        return $this;
     }
 }

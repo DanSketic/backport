@@ -3,8 +3,7 @@
 namespace DanSketic\Backport\Middleware;
 
 use Closure;
-use DanSketic\Backport\Backport;
-use Illuminate\Support\Facades\Auth;
+use DanSketic\Backport\Facades\Backport;
 
 class Authenticate
 {
@@ -18,8 +17,12 @@ class Authenticate
      */
     public function handle($request, Closure $next)
     {
-        if (Auth::guard('backport')->guest() && !$this->shouldPassThrough($request)) {
-            return abort('404');
+        \config(['auth.defaults.guard' => 'admin']);
+
+        $redirectTo = admin_base_path(config('backport.auth.redirect_to', 'auth/login'));
+
+        if (Backport::guard()->guest() && !$this->shouldPassThrough($request)) {
+            return redirect()->to($redirectTo);
         }
 
         return $next($request);
@@ -34,21 +37,24 @@ class Authenticate
      */
     protected function shouldPassThrough($request)
     {
-        $excepts = [
-            /*admin_base_path('auth/login'),
-            admin_base_path('auth/logout'),*/
-        ];
+        // 下面的路由不验证登陆
+        $excepts = config('backport.auth.excepts', []);
 
-        foreach ($excepts as $except) {
-            if ($except !== '/') {
-                $except = trim($except, '/');
-            }
+        array_delete($excepts, [
+            '_handle_action_',
+            '_handle_form_',
+            '_handle_selectable_',
+            '_handle_renderable_',
+        ]);
 
-            if ($request->is($except)) {
-                return true;
-            }
-        }
+        return collect($excepts)
+            ->map('admin_base_path')
+            ->contains(function ($except) use ($request) {
+                if ($except !== '/') {
+                    $except = trim($except, '/');
+                }
 
-        return false;
+                return $request->is($except);
+            });
     }
 }

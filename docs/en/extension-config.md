@@ -7,7 +7,7 @@ This tool will store the configuration data in the database
 ## Installation
 
 ```
-$ composer require laravel-admin-ext/config
+$ composer require backport-ext/config
 
 $ php artisan migrate
 ```
@@ -19,7 +19,7 @@ Open `app/Providers/AppServiceProvider.php`, and call the `Config::load()` metho
 
 namespace App\Providers;
 
-use Encore\Admin\Config\Config;
+use DanSketic\Backport\Config\Config;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider

@@ -1,6 +1,6 @@
 # Model-grid
 
-Class `Encore\Admin\Grid` is used to generate tables based on the data model,for example,we have a table `movies` in database:
+Class `DanSketic\Backport\Grid` is used to generate tables based on the data model,for example,we have a table `movies` in database:
 
 ```sql
 CREATE TABLE `movies` (
@@ -23,10 +23,10 @@ And the model of this table is `App\Models\Movie`,The following code can generat
 ```php
 
 use App\Models\Movie;
-use Encore\Admin\Grid;
-use Encore\Admin\Facades\Admin;
+use DanSketic\Backport\Grid;
+use DanSketic\Backport\Facades\Backport;
 
-$grid = Admin::grid(Movie::class, function(Grid $grid){
+$grid = Backport::grid(Movie::class, function(Grid $grid){
 
     // The first column displays the id field and sets the column as a sortable column
     $grid->id('ID')->sortable();
@@ -100,8 +100,9 @@ $grid->paginate(20);
 #### Modify the display output of column
 
 ```php
+use Illuminate\Support\Str;
 $grid->text()->display(function($text) {
-    return str_limit($text, 30, '...');
+    return Str::limit($text, 30, '...');
 });
 
 $grid->name()->display(function ($name) {
@@ -230,7 +231,7 @@ class Profile extends Model
 You can associate them in a grid with the following code:
 
 ```php
-Admin::grid(User::class, function (Grid $grid) {
+Backport::grid(User::class, function (Grid $grid) {
 
     $grid->id('ID')->sortable();
 
@@ -301,7 +302,7 @@ You can associate them in a grid with the following code:
 
 ```php
 
-return Admin::grid(Post::class, function (Grid $grid) {
+return Backport::grid(Post::class, function (Grid $grid) {
     $grid->id('id')->sortable();
     $grid->title();
     $grid->content();
@@ -316,7 +317,7 @@ return Admin::grid(Post::class, function (Grid $grid) {
 });
 
 
-return Admin::grid(Comment::class, function (Grid $grid) {
+return Backport::grid(Comment::class, function (Grid $grid) {
     $grid->id('id');
     $grid->post()->title();
     $grid->content();
@@ -388,7 +389,7 @@ class Role extends Model
 You can associate them in a grid with the following code:
 
 ```php
-return Admin::grid(User::class, function (Grid $grid) {
+return Backport::grid(User::class, function (Grid $grid) {
     $grid->id('ID')->sortable();
     $grid->username();
     $grid->name();

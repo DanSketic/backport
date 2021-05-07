@@ -2,18 +2,21 @@
 
 namespace DanSketic\Backport\Auth\Database;
 
+use DanSketic\Backport\Traits\DefaultDatetimeFormat;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class OperationLog extends Model
 {
+    use DefaultDatetimeFormat;
+
     protected $fillable = ['user_id', 'path', 'method', 'ip', 'input'];
 
     public static $methodColors = [
-        'GET'    => 'success',
-        'POST'   => 'warning',
-        'PUT'    => 'primary',
-        'DELETE' => 'danger',
+        'GET'    => 'green',
+        'POST'   => 'yellow',
+        'PUT'    => 'blue',
+        'DELETE' => 'red',
     ];
 
     public static $methods = [
@@ -42,8 +45,8 @@ class OperationLog extends Model
      *
      * @return BelongsTo
      */
-    public function user() : BelongsTo
+    public function user(): BelongsTo
     {
-        return $this->belongsTo(Administrator::class);
+        return $this->belongsTo(config('backport.database.users_model'));
     }
 }

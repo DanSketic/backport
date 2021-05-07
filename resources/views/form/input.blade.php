@@ -1,29 +1,32 @@
 <div class="{{$viewClass['form-group']}} {!! !$errors->has($errorKey) ? '' : 'has-error' !!}">
 
-    <label for="{{$id}}" class="{{$viewClass['label']}} col-form-label col-form-label">{{$label}}</label>
+    <label for="{{$id}}" class="{{$viewClass['label']}} control-label">{{$label}}</label>
 
     <div class="{{$viewClass['field']}}">
 
-
+        @include('backport::form.error')
 
         <div class="input-group">
 
             @if ($prepend)
-                <div class="input-group-prepend"><span class="input-group-text">{!! $prepend !!}</span></div>
+            <span class="input-group-addon">{!! $prepend !!}</span>
             @endif
 
-            <input {!! $attributes !!} class="form-control {!! !$errors->has($errorKey) ? '' : 'is-invalid' !!}" />
+            <input {!! $attributes !!} />
 
             @if ($append)
-                <div class="input-group-append"><span class="input-group-text">{!! $append !!}</span></div>
+                <span class="input-group-addon clearfix">{!! $append !!}</span>
             @endif
+
+            @isset($btn)
+                <span class="input-group-btn">
+                  {!! $btn !!}
+                </span>
+            @endisset
 
         </div>
 
-        @include('backport::form.error')
         @include('backport::form.help-block')
-
-
 
     </div>
 </div>

@@ -1,19 +1,16 @@
-<div class="bp-portlet box-{{ $style }}">
-    <div class="bp-portlet__head">
-        <div class="bp-portlet__head-label">
-            <h4 class="bp-margin-b-0">{{ $title }}</h4>
-        </div>
+<div class="box box-{{ $style }}">
+    <div class="box-header with-border">
+        <h3 class="box-title">{{ $title }}</h3>
 
-        <div class="bp-portlet__head-toolbar">
+        <div class="box-tools">
             {!! $tools !!}
         </div>
     </div>
     <!-- /.box-header -->
     <!-- form start -->
-    <div class="bp-portlet__body">
-        <div class="bp-form bp-form--label-right">
+    <div class="form-horizontal">
 
-
+        <div class="box-body">
 
             <div class="fields-group">
 
@@ -22,7 +19,7 @@
                 @endforeach
             </div>
 
-        <!-- /.box-body -->
         </div>
+        <!-- /.box-body -->
     </div>
 </div>

@@ -1,41 +1,53 @@
-<div class="bp-portlet bp-portlet--mobile">
+<div class="box grid-box">
     @if(isset($title))
-    <h3 class="box-title"> {{ $title }}</h3>
+    <div class="box-header with-border">
+        <h3 class="box-title"> {{ $title }}</h3>
+    </div>
     @endif
 
-    @if ( $grid->allowTools() || $grid->allowExport() || $grid->allowCreation() )
-    <div class="bp-portlet__head">
-        @if ( $grid->allowTools() )
-        <div class="bp-portlet__head-toolbar">
-            {!! $grid->renderHeaderTools() !!}
-        </div>
-        @endif
-
-        <div class="bp-portlet__head-toolbar">
+    @if ( $grid->showTools() || $grid->showExportBtn() || $grid->showCreateBtn() )
+    <div class="box-header with-border">
+        <div class="pull-right">
+            {!! $grid->renderColumnSelector() !!}
             {!! $grid->renderExportButton() !!}
             {!! $grid->renderCreateButton() !!}
         </div>
-
+        @if ( $grid->showTools() )
+        <div class="pull-left">
+            {!! $grid->renderHeaderTools() !!}
+        </div>
+        @endif
     </div>
     @endif
 
     {!! $grid->renderFilter() !!}
 
+    {!! $grid->renderHeader() !!}
+
     <!-- /.box-header -->
-    <div class="table-responsive">
-        <table class="table table-hover table-head-noborder table-striped mb-0">
+    <div class="box-body table-responsive no-padding">
+        <table class="table table-hover grid-table" id="{{ $grid->tableID }}">
             <thead>
                 <tr>
-                    @foreach($grid->columns() as $column)
-                    <th>{{$column->getLabel()}}{!! $column->sorter() !!}</th>
+                    @foreach($grid->visibleColumns() as $column)
+                    <th {!! $column->formatHtmlAttributes() !!}>{!! $column->getLabel() !!}{!! $column->renderHeader() !!}</th>
                     @endforeach
                 </tr>
             </thead>
 
+            @if ($grid->hasQuickCreate())
+                {!! $grid->renderQuickCreate() !!}
+            @endif
+
             <tbody>
+
+                @if($grid->rows()->isEmpty() && $grid->showDefineEmptyPage())
+                    @include('backport::grid.empty-grid')
+                @endif
+
                 @foreach($grid->rows() as $row)
                 <tr {!! $row->getRowAttributes() !!}>
-                    @foreach($grid->columnNames as $name)
+                    @foreach($grid->visibleColumnNames() as $name)
                     <td {!! $row->getColumnAttributes($name) !!}>
                         {!! $row->column($name) !!}
                     </td>
@@ -44,6 +56,7 @@
                 @endforeach
             </tbody>
 
+            {!! $grid->renderTotalRow() !!}
 
         </table>
 
@@ -51,6 +64,8 @@
 
     {!! $grid->renderFooter() !!}
 
+    <div class="box-footer clearfix">
         {!! $grid->paginator() !!}
+    </div>
     <!-- /.box-body -->
 </div>

@@ -1,35 +1,49 @@
-    <!-- begin:: Aside -->
-    <button class="bp-aside-close " id="bp_aside_close_btn"><i class="la la-close"></i></button>
-    <div class="bp-aside  bp-aside--fixed 	bp-grid__item bp-grid bp-grid--desktop bp-grid--hor-desktop" id="bp_aside">
+<aside class="main-sidebar">
 
-      <!-- begin:: Aside -->
-      <div class="bp-aside__brand   bp-grid__item" id="bp_aside_brand">
-        <div class="bp-aside__brand-logo">
-          <a href="{{ admin_url('/') }}" data-reset="menu">
-             @if(!config('backport.logo'))
-                <img alt="Logo" src="{{ asset('vendor/backport/media/logos/logo.png') }}" />
-             @else
-                {!! config('backport.logo') !!}
-             @endif
-          </a>
+    <!-- sidebar: style can be found in sidebar.less -->
+    <section class="sidebar">
+
+        <!-- Sidebar user panel (optional) -->
+        <div class="user-panel">
+            <div class="pull-left image">
+                <img src="{{ Backport::user()->avatar }}" class="img-circle" alt="User Image">
+            </div>
+            <div class="pull-left info">
+                <p>{{ Backport::user()->name }}</p>
+                <!-- Status -->
+                <a href="#"><i class="fa fa-circle text-success"></i> {{ trans('admin.online') }}</a>
+            </div>
         </div>
-        <div class="bp-aside__brand-tools">
-          <button class="bp-aside__brand-aside-toggler bp-aside__brand-aside-toggler--left" id="bp_aside_toggler"><span></span></button>
-        </div>
-      </div>
 
-      <!-- end:: Aside -->
+        @if(config('backport.enable_menu_search'))
+        <!-- search form (Optional) -->
+        <form class="sidebar-form" style="overflow: initial;" onsubmit="return false;">
+            <div class="input-group">
+                <input type="text" autocomplete="off" class="form-control autocomplete" placeholder="Search...">
+              <span class="input-group-btn">
+                <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
+                </button>
+              </span>
+                <ul class="dropdown-menu" role="menu" style="min-width: 210px;max-height: 300px;overflow: auto;">
+                    @foreach(Backport::menuLinks() as $link)
+                    <li>
+                        <a href="{{ admin_url($link['uri']) }}"><i class="fa {{ $link['icon'] }}"></i>{{ admin_trans($link['title']) }}</a>
+                    </li>
+                    @endforeach
+                </ul>
+            </div>
+        </form>
+        <!-- /.search form -->
+        @endif
 
-      <!-- begin:: Aside Menu -->
-      <div class="bp-aside-menu-wrapper	bp-grid__item bp-grid__item--fluid" id="bp_aside_menu_wrapper">
-        <div id="bp_aside_menu" class="bp-aside-menu " data-kmenu-vertical="1" data-kmenu-scroll="1" data-kmenu-dropdown-timeout="500">
+        <!-- Sidebar Menu -->
+        <ul class="sidebar-menu">
+            <li class="header">{{ trans('admin.menu') }}</li>
 
-          <ul class="bp-menu__nav ">
             @each('backport::partials.menu', Backport::menu(), 'item')
-          </ul>
-        </div>
-      </div>
 
-      <!-- end:: Aside Menu -->
-    </div>
-    <!-- end:: Aside -->
+        </ul>
+        <!-- /.sidebar-menu -->
+    </section>
+    <!-- /.sidebar -->
+</aside>

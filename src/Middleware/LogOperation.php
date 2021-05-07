@@ -20,12 +20,13 @@ class LogOperation
     public function handle(Request $request, \Closure $next)
     {
         if ($this->shouldLogOperation($request)) {
+            $setProxy = $request->setTrustedProxies(request()->getClientIps(), \Illuminate\Http\Request::HEADER_X_FORWARDED_FOR);
             $log = [
                 'user_id' => Backport::user()->id,
                 'path'    => substr($request->path(), 0, 255),
                 'method'  => $request->method(),
                 'ip'      => $request->getClientIp(),
-                'input'   => $this->hidePasswords(json_encode($request->input())),
+                'input'   => json_encode($request->input()),
             ];
 
             try {
@@ -36,19 +37,6 @@ class LogOperation
         }
 
         return $next($request);
-    }
-
-    /**
-     * Replace passwords with stars in operation log.
-     *
-     *
-     * @param string $stringToLog
-     *
-     * @return string
-     */
-    public function hidePasswords($stringToLog)
-    {
-        return preg_replace('#("(password|_token|password_confirmation)"\s*:\s*")([^"]*)"#', '\1***"', $stringToLog);
     }
 
     /**

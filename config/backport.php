@@ -40,6 +40,16 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Backport bootstrap setting
+    |--------------------------------------------------------------------------
+    |
+    | This value is the path of backport bootstrap file.
+    |
+    */
+    'bootstrap' => app_path('Backport/bootstrap.php'),
+
+    /*
+    |--------------------------------------------------------------------------
     | Backport route settings
     |--------------------------------------------------------------------------
     |
@@ -118,6 +128,8 @@ return [
 
         'controller' => DanSketic\Backport\Controllers\AuthController::class,
 
+        'guard' => 'backport',
+
         'guards' => [
             'backport' => [
                 'driver'   => 'session',
@@ -134,6 +146,15 @@ return [
 
         // Add "remember me" to login form
         'remember' => true,
+
+        // Redirect to the specified URI when user is not authorized.
+        'redirect_to' => 'auth/login',
+
+        // The URIs that should be excluded from authorization.
+        'excepts' => [
+            'auth/login',
+            'auth/logout',
+        ],
     ],
 
     /*
@@ -219,9 +240,33 @@ return [
          * or specific method to path like: get:admin/auth/logs.
          */
         'except' => [
-            'admin/auth/logs*',
+            env('ADMIN_ROUTE_PREFIX', 'admin').'/auth/logs*',
         ],
     ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Indicates whether to check route permission.
+    |--------------------------------------------------------------------------
+    */
+    'check_route_permission' => true,
+
+    /*
+    |--------------------------------------------------------------------------
+    | Indicates whether to check menu roles.
+    |--------------------------------------------------------------------------
+    */
+    'check_menu_roles'       => true,
+
+    /*
+    |--------------------------------------------------------------------------
+    | User default avatar
+    |--------------------------------------------------------------------------
+    |
+    | Set a default avatar for newly created users.
+    |
+    */
+    'default_avatar' => '/vendor/backport/AdminLTE/dist/img/user2-160x160.jpg',
 
     /*
     |--------------------------------------------------------------------------
@@ -235,25 +280,43 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Additional CSS
+    | Application Skin
     |--------------------------------------------------------------------------
     |
-    | Add additional CSS files.
+    | This value is the skin of admin pages.
+    | @see https://adminlte.io/docs/2.4/layout
+    |
+    | Supported:
+    |    "skin-blue", "skin-blue-light", "skin-yellow", "skin-yellow-light",
+    |    "skin-green", "skin-green-light", "skin-purple", "skin-purple-light",
+    |    "skin-red", "skin-red-light", "skin-black", "skin-black-light".
     |
     */
-    'additional_css' => [
-    ],
+    'skin' => 'skin-blue-light',
 
     /*
     |--------------------------------------------------------------------------
-    | Additional JS
+    | Application layout
     |--------------------------------------------------------------------------
     |
-    | Add additional JS files.
+    | This value is the layout of admin pages.
+    | @see https://adminlte.io/docs/2.4/layout
+    |
+    | Supported: "fixed", "layout-boxed", "layout-top-nav", "sidebar-collapse",
+    | "sidebar-mini".
     |
     */
-    'additional_js' => [
-    ],
+    'layout' => ['sidebar-mini', 'sidebar-collapse'],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Login page background image
+    |--------------------------------------------------------------------------
+    |
+    | This value is used to set the background image of login page.
+    |
+    */
+    'login_background_image' => '',
 
     /*
     |--------------------------------------------------------------------------
@@ -293,6 +356,41 @@ return [
     | Whether enable default breadcrumb for every page content.
     */
     'enable_default_breadcrumb' => true,
+
+    /*
+    |--------------------------------------------------------------------------
+    | Enable/Disable assets minify
+    |--------------------------------------------------------------------------
+    */
+    'minify_assets' => [
+
+        // Assets will not be minified.
+        'excepts' => [
+
+        ],
+
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Enable/Disable sidebar menu search
+    |--------------------------------------------------------------------------
+    */
+    'enable_menu_search' => true,
+
+    /*
+    |--------------------------------------------------------------------------
+    | Alert message that will displayed on top of the page.
+    |--------------------------------------------------------------------------
+    */
+    'top_alert' => '',
+
+    /*
+    |--------------------------------------------------------------------------
+    | The global Grid action display class.
+    |--------------------------------------------------------------------------
+    */
+    'grid_action_class' => \DanSketic\Backport\Grid\Displayers\DropdownActions::class,
 
     /*
     |--------------------------------------------------------------------------

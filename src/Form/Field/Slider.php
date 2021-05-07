@@ -6,7 +6,6 @@ use DanSketic\Backport\Form\Field;
 
 class Slider extends Field
 {
-    /*
     protected static $css = [
         '/vendor/backport/AdminLTE/plugins/ionslider/ion.rangeSlider.css',
         '/vendor/backport/AdminLTE/plugins/ionslider/ion.rangeSlider.skinNice.css',
@@ -14,7 +13,7 @@ class Slider extends Field
 
     protected static $js = [
         '/vendor/backport/AdminLTE/plugins/ionslider/ion.rangeSlider.min.js',
-    ];*/
+    ];
 
     protected $options = [
         'type'     => 'single',
@@ -26,7 +25,7 @@ class Slider extends Field
     {
         $option = json_encode($this->options);
 
-        $this->script = "$('{$this->getElementClassSelector()}').ionRangeSlider($option)";
+        $this->script = "$('{$this->getElementClassSelector()}').ionRangeSlider($option);";
 
         return parent::render();
     }

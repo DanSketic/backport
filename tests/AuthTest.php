@@ -34,13 +34,13 @@ class AuthTest extends TestCase
             ->see('Laravel version')
 
             ->see('Available extensions')
-            ->seeLink('laravel-admin-ext/helpers', 'https://github.com/laravel-admin-extensions/helpers')
-            ->seeLink('laravel-admin-ext/backup', 'https://github.com/laravel-admin-extensions/backup')
-            ->seeLink('laravel-admin-ext/media-manager', 'https://github.com/laravel-admin-extensions/media-manager')
+            ->seeLink('backport-ext/helpers', 'https://github.com/backport-extensions/helpers')
+            ->seeLink('backport-ext/backup', 'https://github.com/backport-extensions/backup')
+            ->seeLink('backport-ext/media-manager', 'https://github.com/backport-extensions/media-manager')
 
             ->see('Dependencies')
             ->see('php')
-            ->see('>=7.0.0')
+//            ->see('>=7.0.0')
             ->see('laravel/framework');
 
         $this

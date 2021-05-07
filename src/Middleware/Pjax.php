@@ -3,8 +3,8 @@
 namespace DanSketic\Backport\Middleware;
 
 use Closure;
+use DanSketic\Backport\Facades\Backport;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\MessageBag;
 use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\HttpFoundation\Response;
@@ -23,7 +23,7 @@ class Pjax
     {
         $response = $next($request);
 
-        if (!$request->pjax() || $response->isRedirection() || Auth::guard('backport')->guest()) {
+        if (!$request->pjax() || $response->isRedirection() || Backport::guard()->guest()) {
             return $response;
         }
 

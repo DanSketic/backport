@@ -6,6 +6,11 @@
   <title>{{config('backport.title')}} | {{ trans('admin.login') }}</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+  
+  @if(!is_null($favicon = Backport::favicon()))
+  <link rel="shortcut icon" href="{{$favicon}}">
+  @endif
+
   <!-- Bootstrap 3.3.5 -->
   <link rel="stylesheet" href="{{ admin_asset("vendor/backport/AdminLTE/bootstrap/css/bootstrap.min.css") }}">
   <!-- Font Awesome -->
@@ -25,18 +30,18 @@
 <body class="hold-transition login-page" @if(config('backport.login_background_image'))style="background: url({{config('backport.login_background_image')}}) no-repeat;background-size: cover;"@endif>
 <div class="login-box">
   <div class="login-logo">
-    <a href="{{ admin_base_path('/') }}"><b>{{config('backport.name')}}</b></a>
+    <a href="{{ admin_url('/') }}"><b>{{config('backport.name')}}</b></a>
   </div>
   <!-- /.login-logo -->
   <div class="login-box-body">
     <p class="login-box-msg">{{ trans('admin.login') }}</p>
 
-    <form action="{{ admin_base_path('auth/login') }}" method="post">
+    <form action="{{ admin_url('auth/login') }}" method="post">
       <div class="form-group has-feedback {!! !$errors->has('username') ?: 'has-error' !!}">
 
         @if($errors->has('username'))
           @foreach($errors->get('username') as $message)
-            <label class="col-form-label" for="inputError"><i class="fa fa-times-circle-o"></i>{{$message}}</label><br>
+            <label class="control-label" for="inputError"><i class="fa fa-times-circle-o"></i>{{$message}}</label><br>
           @endforeach
         @endif
 
@@ -47,7 +52,7 @@
 
         @if($errors->has('password'))
           @foreach($errors->get('password') as $message)
-            <label class="col-form-label" for="inputError"><i class="fa fa-times-circle-o"></i>{{$message}}</label><br>
+            <label class="control-label" for="inputError"><i class="fa fa-times-circle-o"></i>{{$message}}</label><br>
           @endforeach
         @endif
 

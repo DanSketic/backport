@@ -1,4 +1,4 @@
-<div class="input-group input-group-sm date">
+<div class="input-group input-group-sm">
     @if($group)
         <div class="input-group-btn">
             <input type="hidden" name="{{ $id }}_group" class="{{ $group_name }}-operation" value="0"/>
@@ -14,10 +14,8 @@
             </ul>
         </div>
     @endif
-    <div class="input-group-prepend">
-        <span class="input-group-text">
-            <i class="fa fa-calendar"></i>
-        </span>
+    <div class="input-group-addon">
+        <i class="fa fa-calendar"></i>
     </div>
     <input class="form-control" id="{{$id}}" placeholder="{{$label}}" name="{{$name}}" value="{{ request($name, $value) }}">
 </div>

@@ -1,15 +1,15 @@
 # Page content
 
-The layout usage of `laravel-admin` can be found in the `index()` method of the home page's layout file [HomeController.php](https://github.com/z-song/laravel-admin/blob/master/src/Console/stubs/HomeController.stub).
+The layout usage of `backport` can be found in the `index()` method of the home page's layout file [HomeController.php](https://github.com/z-song/backport/blob/master/src/Console/stubs/HomeController.stub).
 
-The `Encore\Admin\Layout\Content` class is used to implement the layout of the content area. The `Content::body ($element)` method is used to add page content:
+The `DanSketic\Backport\Layout\Content` class is used to implement the layout of the content area. The `Content::body ($element)` method is used to add page content:
 
 The page code for an unfilled content is as follows：
 
 ```php
 public function index()
 {
-    return Admin::content(function (Content $content) {
+    return Backport::content(function (Content $content) {
 
         // optional
         $content->header('page header');
@@ -34,7 +34,7 @@ Method `$content->body();` can accepts any renderable objects, like string, numb
 
 ## Layout
 
-`laravel-admin` use grid system of bootstrap,The length of each line is 12, the following is a few simple examples:
+`backport` use grid system of bootstrap,The length of each line is 12, the following is a few simple examples:
 
 Add a line of content:
 
@@ -137,3 +137,17 @@ $content->row(function (Row $row) {
 ----------------------------------
 ```
 
+Add body into a page：
+
+Create a blade view file inside `/project/resources/views/admin/custom.blade.php`
+
+```php
+    public function customPage($id)
+    {
+        $content = new Content();
+        $content->header('View');
+        $content->description('Description...');
+        $content->body('backport.custom',['id' => $id]);
+        return $content;
+    }
+```

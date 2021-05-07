@@ -4,69 +4,17 @@ namespace DanSketic\Backport\Controllers;
 
 use DanSketic\Backport\Form;
 use DanSketic\Backport\Grid;
-use DanSketic\Backport\Layout\Content;
 use DanSketic\Backport\Show;
-use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Hash;
 
-class UserController extends Controller
+class UserController extends AdminController
 {
-    use HasResourceActions;
-
     /**
-     * Index interface.
-     *
-     * @return Content
+     * {@inheritdoc}
      */
-    public function index(Content $content)
+    protected function title()
     {
-        return $content
-            ->header(trans('admin.administrator'))
-            ->description(trans('admin.list'))
-            ->body($this->grid()->render());
-    }
-
-    /**
-     * Show interface.
-     *
-     * @param mixed   $id
-     * @param Content $content
-     *
-     * @return Content
-     */
-    public function show($id, Content $content)
-    {
-        return $content
-            ->header(trans('admin.administrator'))
-            ->description(trans('admin.detail'))
-            ->body($this->detail($id));
-    }
-
-    /**
-     * Edit interface.
-     *
-     * @param $id
-     *
-     * @return Content
-     */
-    public function edit($id, Content $content)
-    {
-        return $content
-            ->header(trans('admin.administrator'))
-            ->description(trans('admin.edit'))
-            ->body($this->form()->edit($id));
-    }
-
-    /**
-     * Create interface.
-     *
-     * @return Content
-     */
-    public function create(Content $content)
-    {
-        return $content
-            ->header(trans('admin.administrator'))
-            ->description(trans('admin.create'))
-            ->body($this->form());
+        return trans('admin.administrator');
     }
 
     /**
@@ -80,20 +28,12 @@ class UserController extends Controller
 
         $grid = new Grid(new $userModel());
 
-        $grid->id('ID')->sortable();
-        $grid->username(trans('admin.username'));
-        $grid->name(trans('admin.name'));
-
-        $confirmed_states = [
-            'on'  => ['value' => 1, 'text' => 'Yes', 'color' => 'primary'],
-            'off' => ['value' => 0, 'text' => 'No', 'color' => 'default'],
-        ];
-        $grid->confirmed()->switch($confirmed_states);
-
-        $grid->roles(trans('admin.roles'))->pluck('name')->label();
-        $grid->created_at(trans('admin.created_at'));
-        $grid->updated_at(trans('admin.updated_at'));
-
+        $grid->column('id', 'ID')->sortable();
+        $grid->column('username', trans('admin.username'));
+        $grid->column('name', trans('admin.name'));
+        $grid->column('roles', trans('admin.roles'))->pluck('name')->label();
+        $grid->column('created_at', trans('admin.created_at'));
+        $grid->column('updated_at', trans('admin.updated_at'));
 
         $grid->actions(function (Grid\Displayers\Actions $actions) {
             if ($actions->getKey() == 1) {
@@ -123,17 +63,17 @@ class UserController extends Controller
 
         $show = new Show($userModel::findOrFail($id));
 
-        $show->id('ID');
-        $show->username(trans('admin.username'));
-        $show->name(trans('admin.name'));
-        $show->roles(trans('admin.roles'))->as(function ($roles) {
+        $show->field('id', 'ID');
+        $show->field('username', trans('admin.username'));
+        $show->field('name', trans('admin.name'));
+        $show->field('roles', trans('admin.roles'))->as(function ($roles) {
             return $roles->pluck('name');
         })->label();
-        $show->permissions(trans('admin.permissions'))->as(function ($permission) {
+        $show->field('permissions', trans('admin.permissions'))->as(function ($permission) {
             return $permission->pluck('name');
         })->label();
-        $show->created_at(trans('admin.created_at'));
-        $show->updated_at(trans('admin.updated_at'));
+        $show->field('created_at', trans('admin.created_at'));
+        $show->field('updated_at', trans('admin.updated_at'));
 
         return $show;
     }
@@ -151,9 +91,14 @@ class UserController extends Controller
 
         $form = new Form(new $userModel());
 
-        $form->display('id', 'ID');
+        $userTable = config('backport.database.users_table');
+        $connection = config('backport.database.connection');
 
-        $form->text('username', trans('admin.username'))->required()->rules('required');
+        $form->display('id', 'ID');
+        $form->text('username', trans('admin.username'))
+            ->creationRules(['required', "unique:{$connection}.{$userTable}"])
+            ->updateRules(['required', "unique:{$connection}.{$userTable},username,{{id}}"]);
+
         $form->text('name', trans('admin.name'))->rules('required');
         $form->image('avatar', trans('admin.avatar'));
         $form->password('password', trans('admin.password'))->rules('required|confirmed');
@@ -164,8 +109,6 @@ class UserController extends Controller
 
         $form->ignore(['password_confirmation']);
 
-        $form->switch('confirmed');
-
         $form->multipleSelect('roles', trans('admin.roles'))->options($roleModel::all()->pluck('name', 'id'));
         $form->multipleSelect('permissions', trans('admin.permissions'))->options($permissionModel::all()->pluck('name', 'id'));
 
@@ -174,7 +117,7 @@ class UserController extends Controller
 
         $form->saving(function (Form $form) {
             if ($form->password && $form->model()->password != $form->password) {
-                $form->password = bcrypt($form->password);
+                $form->password = Hash::make($form->password);
             }
         });
 

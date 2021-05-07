@@ -1,16 +1,52 @@
-<span  style="margin-left: -5px; margin-right: 15px; padding-top: 7px;">
-    <input type="checkbox" class="{{ $selectAllName }}" />
-</span>
-@if(!$isHoldSelectAllCheckbox)
-<div class="btn-group mr-1">
-    <button type="button" class="btn btn-sm btn-secondary dropdown-toggle" title="{$export}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        <i class="fas fa-exclamation"></i><span class="hidden-xs"><span class="hidden-xs"> {{ trans('admin.action') }}</span></span>
+@if(!$holdAll)
+<div class="btn-group {{ $all }}-btn" style="display:none;margin-right: 5px;">
+    <a class="btn btn-sm btn-default hidden-xs"><span class="selected"></span></a>
+    <button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown">
+        <span class="caret"></span>
+        <span class="sr-only">Toggle Dropdown</span>
     </button>
-    <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">
+    @if(!$actions->isEmpty())
+    <ul class="dropdown-menu" role="menu">
         @foreach($actions as $action)
-            <a href="#" class="dropdown-item {{ $action->getElementClass(false) }}">{{ $action->getTitle() }}</a>
-
+            @if($action instanceof \DanSketic\Backport\Actions\BatchAction)
+                <li>{!! $action->render() !!}</li>
+            @else
+                <li><a href="#" class="{{ $action->getElementClass(false) }}">{!! $action->render() !!} </a></li>
+            @endif
         @endforeach
-    </div>
+    </ul>
+    @endif
 </div>
 @endif
+
+<script>
+$('.{{ $all }}').iCheck({checkboxClass:'icheckbox_minimal-blue'});
+
+$('.{{ $all }}').on('ifChanged', function(event) {
+    if (this.checked) {
+        $('.{{ $row }}-checkbox').iCheck('check');
+    } else {
+        $('.{{ $row }}-checkbox').iCheck('uncheck');
+    }
+}).on('ifClicked', function () {
+    if (this.checked) {
+        $.backport.grid.selects = {};
+    } else {
+        $('.{{ $row }}-checkbox').each(function () {
+            var id = $(this).data('id');
+            $.backport.grid.select(id);
+        });
+    }
+
+    var selected = $.backport.grid.selected().length;
+
+    if (selected > 0) {
+        $('.{{ $all }}-btn').show();
+    } else {
+        $('.{{ $all }}-btn').hide();
+    }
+
+    $('.{{ $all }}-btn .selected')
+        .html("{{ trans('admin.grid_items_selected') }}".replace('{n}', selected));
+});
+</script>

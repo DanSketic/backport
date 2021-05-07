@@ -5,13 +5,13 @@
 
 The built-in `map` and `editor` fields requires the front-end files via cdn, and if there are problems with the network, they can be removed in the following ways
 
-Locate the file `app/Admin/bootstrap.php`. If the file does not exist, update `laravel-admin` and create this file.
+Locate the file `app/Admin/bootstrap.php`. If the file does not exist, update `backport` and create this file.
 
 ```php
 
 <?php
 
-use Encore\Admin\Form;
+use DanSketic\Backport\Form;
 
 Form::forget('map');
 Form::forget('editor');
@@ -39,11 +39,11 @@ Create a new field class `app/Admin/Extensions/PHPEditor.php`:
 
 namespace App\Admin\Extensions;
 
-use Encore\Admin\Form\Field;
+use DanSketic\Backport\Form\Field;
 
 class PHPEditor extends Field
 {
-    protected $view = 'admin.php-editor';
+    protected $view = 'backport.php-editor';
 
     protected static $css = [
         '/packages/codemirror-5.20.2/lib/codemirror.css',
@@ -82,7 +82,7 @@ EOT;
 
 ```
 
->Static resources in the class can also be imported from outside, see [Editor.php](https://github.com/z-song/laravel-admin/blob/1.3/src/Form/Field/Editor.php)
+>Static resources in the class can also be imported from outside, see [Editor.php](https://github.com/z-song/backport/blob/1.3/src/Form/Field/Editor.php)
 
 Create a view file `resources/views/admin/php-editor.blade.php`:
 
@@ -94,21 +94,21 @@ Create a view file `resources/views/admin/php-editor.blade.php`:
 
     <div class="col-sm-6">
 
-        @include('admin::form.error')
+        @include('backport::form.error')
 
-        <textarea class="form-control" id="{{$id}}" name="{{$name}}" placeholder="{{ trans('admin::lang.input') }} {{$label}}" {!! $attributes !!} >{{ old($column, $value) }}</textarea>
+        <textarea class="form-control" id="{{$id}}" name="{{$name}}" placeholder="{{ trans('backport::lang.input') }} {{$label}}" {!! $attributes !!} >{{ old($column, $value) }}</textarea>
     </div>
 </div>
 
 ```
 
-Finally, find the file `app/Admin/bootstrap.php`, if the file does not exist, update `laravel-admin`, and then create this file, add the following code:
+Finally, find the file `app/Admin/bootstrap.php`, if the file does not exist, update `backport`, and then create this file, add the following code:
 
 ```
 <?php
 
 use App\Admin\Extensions\PHPEditor;
-use Encore\Admin\Form;
+use DanSketic\Backport\Form;
 
 Form::extend('php', PHPEditor::class);
 
@@ -136,7 +136,7 @@ Then Write Extension class `app/Admin/Extensions/Form/CKEditor.php`:
 
 namespace App\Admin\Extensions\Form;
 
-use Encore\Admin\Form\Field;
+use DanSketic\Backport\Form\Field;
 
 class CKEditor extends Field
 {
@@ -145,7 +145,7 @@ class CKEditor extends Field
         '/packages/ckeditor/adapters/jquery.js',
     ];
 
-    protected $view = 'admin.ckeditor';
+    protected $view = 'backport.ckeditor';
 
     public function render()
     {
@@ -155,7 +155,7 @@ class CKEditor extends Field
     }
 }
 ```
-Add blade file `resources/views/admin/ckeditor.blade.php` for view `admin.ckeditor` : 
+Add blade file `resources/views/admin/ckeditor.blade.php` for view `backport.ckeditor` : 
 ```php
 <div class="form-group {!! !$errors->has($errorKey) ?: 'has-error' !!}">
 
@@ -163,11 +163,11 @@ Add blade file `resources/views/admin/ckeditor.blade.php` for view `admin.ckedit
 
     <div class="col-sm-6">
 
-        @include('admin::form.error')
+        @include('backport::form.error')
 
         <textarea class="form-control {{$class}}" id="{{$id}}" name="{{$name}}" placeholder="{{ $placeholder }}" {!! $attributes !!} >{{ old($column, $value) }}</textarea>
 
-        @include('admin::form.help-block')
+        @include('backport::form.help-block')
 
     </div>
 </div>
@@ -176,7 +176,7 @@ Add blade file `resources/views/admin/ckeditor.blade.php` for view `admin.ckedit
 Register this extension in `app/Admin/bootstrap.php`:
 
 ```php
-use Encore\Admin\Form;
+use DanSketic\Backport\Form;
 use App\Admin\Extensions\Form\CKEditor;
 
 Form::extend('ckeditor', CKEditor::class);

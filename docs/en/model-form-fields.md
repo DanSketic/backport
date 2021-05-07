@@ -19,6 +19,11 @@ $form->text('title')->default('text...');
 $form->text('title')->help('help...');
 ```
 
+### Set fa-icon class
+```php
+$form->text('title')->icon('fa-copy');
+```
+
 ### Set attributes of field element
 ```php
 $form->text('title')->attribute(['data-title' => 'title...']);
@@ -94,7 +99,7 @@ $form->select('user_id')->options(User::class)->ajax('/admin/api/users');
 $form->select('user_id')->options(User::class, 'name', 'id')->ajax('/admin/api/users');
 ```
 
-<sub>Notice：if you have modified the value of the `route.prefix` in the `config/admin.php` file, this api route should be modified to `config('backport.route.prefix').'/api/users'`.</sub>
+<sub>Notice：if you have modified the value of the `route.prefix` in the `config/backport.php` file, this api route should be modified to `config('backport.route.prefix').'/api/users'`.</sub>
 
 The controller method for api `/admin/api/users` is:
 
@@ -219,7 +224,7 @@ $form->select('user_id')->options(function ($id) {
 })->ajax('/admin/api/users');
 ```
 
-<sub>Notice：If you have modified the value of the `route.prefix` in the `config/admin.php` file, this api route should be modified to `config('backport.route.prefix').'/api/users'`.</sub>
+<sub>Notice：If you have modified the value of the `route.prefix` in the `config/backport.php` file, this api route should be modified to `config('backport.route.prefix').'/api/users'`.</sub>
 
 The controller method for api `/admin/api/users` is:
 
@@ -391,7 +396,7 @@ $form->rate($column[, $label]);
 
 Before use upload field, you must complete upload configuration, see [image/file upload](/en/model-form-upload.md).
 
-You can use compression, crop, add watermarks and other methods, please refer to [[Intervention] (http://image.intervention.io/getting_started/introduction)], picture upload directory in the file `config / admin.php` `Upload.image` configuration, if the directory does not exist, you need to create the directory and open write permissions:
+You can use compression, crop, add watermarks and other methods, please refer to [[Intervention] (http://image.intervention.io/getting_started/introduction)], picture upload directory in the file `config / backport.php` `Upload.image` configuration, if the directory does not exist, you need to create the directory and open write permissions:
 ```php
 $form->image($column[, $label]);
 
@@ -413,7 +418,7 @@ $form->image($column[, $label])->removable();
 
 Before use upload field, you must complete upload configuration, see [image/file upload](/en/model-form-upload.md).
 
-The file upload directory is configured in `upload.file` in the file `config/admin.php`. If the directory does not exist, it needs to be created and write-enabled.
+The file upload directory is configured in `upload.file` in the file `config/backport.php`. If the directory does not exist, it needs to be created and write-enabled.
 ```php
 $form->file($column[, $label]);
 

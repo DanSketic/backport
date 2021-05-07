@@ -41,7 +41,7 @@ First define the action class:
 
 namespace App\Admin\Extensions;
 
-use Encore\Admin\Admin;
+use DanSketic\Backport\Backport;
 
 class CheckRow
 {
@@ -68,7 +68,7 @@ SCRIPT;
 
     protected function render()
     {
-        Admin::script($this->script());
+        Backport::script($this->script());
 
         return "<a class='btn btn-xs btn-success fa fa-check grid-check-row' data-id='{$this->id}'></a>";
     }

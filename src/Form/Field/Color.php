@@ -5,11 +5,11 @@ namespace DanSketic\Backport\Form\Field;
 class Color extends Text
 {
     protected static $css = [
-        '/vendor/backport/vendors/custom/bootstrap-colorpicker/colorpicker.css',
+        '/vendor/backport/AdminLTE/plugins/colorpicker/bootstrap-colorpicker.min.css',
     ];
 
     protected static $js = [
-        '/vendor/backport/vendors/custom/bootstrap-colorpicker/colorpicker.js',
+        '/vendor/backport/AdminLTE/plugins/colorpicker/bootstrap-colorpicker.min.js',
     ];
 
     /**
@@ -51,15 +51,10 @@ class Color extends Text
     {
         $options = json_encode($this->options);
 
-        $this->script = <<<EOT
-$('#{$this->getElementClassString()}').colorpicker($options);
-$('#{$this->getElementClassString()}').on('colorpickerChange', function(event) {
-  $('#{$this->getElementClassString()}-square').css('color', event.color.toString());
-});
-EOT;
+        $this->script = "$('{$this->getElementClassSelector()}').parent().colorpicker($options);";
 
-
-        $this->prepend('<i class="fas fa-square" id="'.$this->getElementClassString().'-square" style="color: '.$this->value.'"></i>');
+        $this->prepend('<i></i>')
+            ->defaultAttribute('style', 'width: 140px');
 
         return parent::render();
     }

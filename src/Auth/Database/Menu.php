@@ -2,7 +2,7 @@
 
 namespace DanSketic\Backport\Auth\Database;
 
-use DanSketic\Backport\Traits\AdminBuilder;
+use DanSketic\Backport\Traits\DefaultDatetimeFormat;
 use DanSketic\Backport\Traits\ModelTree;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -17,7 +17,8 @@ use Illuminate\Support\Facades\DB;
  */
 class Menu extends Model
 {
-    use AdminBuilder, ModelTree {
+    use DefaultDatetimeFormat;
+    use ModelTree {
         ModelTree::boot as treeBoot;
     }
 
@@ -49,7 +50,7 @@ class Menu extends Model
      *
      * @return BelongsToMany
      */
-    public function roles() : BelongsToMany
+    public function roles(): BelongsToMany
     {
         $pivotTable = config('backport.database.role_menu_table');
 
@@ -61,14 +62,20 @@ class Menu extends Model
     /**
      * @return array
      */
-    public function allNodes() : array
+    public function allNodes(): array
     {
         $connection = config('backport.database.connection') ?: config('database.default');
         $orderColumn = DB::connection($connection)->getQueryGrammar()->wrap($this->orderColumn);
 
-        $byOrder = $orderColumn.' = 0,'.$orderColumn;
+        $byOrder = 'ROOT ASC,'.$orderColumn;
 
-        return static::with('roles')->orderByRaw($byOrder)->get()->toArray();
+        $query = static::query();
+
+        if (config('backport.check_menu_roles') !== false) {
+            $query->with('roles');
+        }
+
+        return $query->selectRaw('*, '.$orderColumn.' ROOT')->orderByRaw($byOrder)->get()->toArray();
     }
 
     /**

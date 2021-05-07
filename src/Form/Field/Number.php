@@ -5,20 +5,20 @@ namespace DanSketic\Backport\Form\Field;
 class Number extends Text
 {
     protected static $js = [
-        '/vendor/backport/vendors/custom/number-input/bootstrap-number-input.js',
+        '/vendor/backport/number-input/bootstrap-number-input.js',
     ];
 
     public function render()
     {
-        $this->default((int) $this->default);
+        $this->default($this->default);
 
         $this->script = <<<EOT
 
-$('#{$this->getElementClassString()}:not(.initialized)')
+$('{$this->getElementClassSelector()}:not(.initialized)')
     .addClass('initialized')
     .bootstrapNumber({
-        upClass: 'secondary',
-        downClass: 'secondary',
+        upClass: 'success',
+        downClass: 'primary',
         center: true
     });
 

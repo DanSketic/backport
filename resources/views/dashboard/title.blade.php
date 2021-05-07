@@ -26,7 +26,7 @@
 </style>
 
 <div class="title">
-    backport
+    Backport
 </div>
 <div class="links">
     <a href="https://github.com/z-song/backport" target="_blank">Github</a>

@@ -2,63 +2,14 @@
 
 namespace Tests\Controllers;
 
-use App\Http\Controllers\Controller;
-use DanSketic\Backport\Controllers\ModelForm;
-use DanSketic\Backport\Facades\Backport;
+use DanSketic\Backport\Controllers\AdminController;
 use DanSketic\Backport\Form;
 use DanSketic\Backport\Grid;
-use DanSketic\Backport\Layout\Content;
 use Tests\Models\MultipleImage;
 
-class MultipleImageController extends Controller
+class MultipleImageController extends AdminController
 {
-    use ModelForm;
-
-    /**
-     * Index interface.
-     *
-     * @return Content
-     */
-    public function index()
-    {
-        return Backport::content(function (Content $content) {
-            $content->header('header');
-            $content->description('description');
-
-            $content->body($this->grid());
-        });
-    }
-
-    /**
-     * Edit interface.
-     *
-     * @param $id
-     *
-     * @return Content
-     */
-    public function edit($id)
-    {
-        return Backport::content(function (Content $content) use ($id) {
-            $content->header('header');
-            $content->description('description');
-
-            $content->body($this->form()->edit($id));
-        });
-    }
-
-    /**
-     * Create interface.
-     *
-     * @return Content
-     */
-    public function create()
-    {
-        return Backport::content(function (Content $content) {
-            $content->header('Upload image');
-
-            $content->body($this->form());
-        });
-    }
+    protected $title = 'Images';
 
     /**
      * Make a grid builder.
@@ -67,14 +18,16 @@ class MultipleImageController extends Controller
      */
     protected function grid()
     {
-        return Backport::grid(Image::class, function (Grid $grid) {
-            $grid->id('ID')->sortable();
+        $grid = new Grid(new MultipleImage());
 
-            $grid->created_at();
-            $grid->updated_at();
+        $grid->id('ID')->sortable();
 
-            $grid->disableFilter();
-        });
+        $grid->created_at();
+        $grid->updated_at();
+
+        $grid->disableFilter();
+
+        return $grid;
     }
 
     /**
@@ -84,13 +37,15 @@ class MultipleImageController extends Controller
      */
     protected function form()
     {
-        return Backport::form(MultipleImage::class, function (Form $form) {
-            $form->display('id', 'ID');
+        $form = new Form(new MultipleImage());
 
-            $form->multipleImage('pictures');
+        $form->display('id', 'ID');
 
-            $form->display('created_at', 'Created At');
-            $form->display('updated_at', 'Updated At');
-        });
+        $form->multipleImage('pictures');
+
+        $form->display('created_at', 'Created At');
+        $form->display('updated_at', 'Updated At');
+
+        return $form;
     }
 }

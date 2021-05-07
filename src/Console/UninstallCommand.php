@@ -45,6 +45,6 @@ class UninstallCommand extends Command
     {
         $this->laravel['files']->deleteDirectory(config('backport.directory'));
         $this->laravel['files']->deleteDirectory(public_path('vendor/backport/'));
-        $this->laravel['files']->delete(config_path('admin.php'));
+        $this->laravel['files']->delete(config_path('backport.php'));
     }
 }

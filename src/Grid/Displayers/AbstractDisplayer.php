@@ -4,6 +4,7 @@ namespace DanSketic\Backport\Grid\Displayers;
 
 use DanSketic\Backport\Grid;
 use DanSketic\Backport\Grid\Column;
+use Illuminate\Database\Eloquent\Model;
 
 abstract class AbstractDisplayer
 {
@@ -18,7 +19,7 @@ abstract class AbstractDisplayer
     protected $column;
 
     /**
-     * @var \stdClass
+     * @var Model
      */
     public $row;
 
@@ -44,6 +45,30 @@ abstract class AbstractDisplayer
     }
 
     /**
+     * @return mixed
+     */
+    public function getValue()
+    {
+        return $this->value;
+    }
+
+    /**
+     * @return Grid
+     */
+    public function getGrid()
+    {
+        return $this->grid;
+    }
+
+    /**
+     * @return Column
+     */
+    public function getColumn()
+    {
+        return $this->column;
+    }
+
+    /**
      * Get key of current row.
      *
      * @return mixed
@@ -51,6 +76,16 @@ abstract class AbstractDisplayer
     public function getKey()
     {
         return $this->row->{$this->grid->getKeyName()};
+    }
+
+    /**
+     * @param mixed $key
+     *
+     * @return mixed
+     */
+    public function getAttribute($key)
+    {
+        return $this->row->getAttribute($key);
     }
 
     /**
@@ -64,6 +99,36 @@ abstract class AbstractDisplayer
     }
 
     /**
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->getColumn()->getName();
+    }
+
+    /**
+     * @return string
+     */
+    public function getClassName()
+    {
+        return $this->getColumn()->getClassName();
+    }
+
+    /**
+     * `foo.bar.baz` => `foo[bar][baz]`.
+     *
+     * @return string
+     */
+    protected function getPayloadName($name = '')
+    {
+        $keys = collect(explode('.', $name ?: $this->getName()));
+
+        return $keys->shift().$keys->reduce(function ($carry, $val) {
+            return $carry."[$val]";
+        });
+    }
+
+    /**
      * Get translation.
      *
      * @param string $text
@@ -72,7 +137,7 @@ abstract class AbstractDisplayer
      */
     protected function trans($text)
     {
-        return trans("admin.$text");
+        return trans("backport.$text");
     }
 
     /**

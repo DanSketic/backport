@@ -12,9 +12,9 @@ class Currency extends Text
     /**
      * @var array
      */
-    /*protected static $js = [
-        '/vendor/backup_old/AdminLTE/plugins/input-mask/jquery.inputmask.bundle.min.js',
-    ];*/
+    protected static $js = [
+        '/vendor/backport/AdminLTE/plugins/input-mask/jquery.inputmask.bundle.min.js',
+    ];
 
     /**
      * @see https://github.com/RobinHerbots/Inputmask#options

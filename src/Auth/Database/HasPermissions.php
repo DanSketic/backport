@@ -11,7 +11,7 @@ trait HasPermissions
      *
      * @return mixed
      */
-    public function allPermissions() : Collection
+    public function allPermissions(): Collection
     {
         return $this->roles()->with('permissions')->get()->pluck('permissions')->flatten()->merge($this->permissions);
     }
@@ -24,8 +24,12 @@ trait HasPermissions
      *
      * @return bool
      */
-    public function can($ability, $arguments = []) : bool
+    public function can($ability, $arguments = []): bool
     {
+        if (empty($ability)) {
+            return true;
+        }
+
         if ($this->isAdministrator()) {
             return true;
         }
@@ -44,7 +48,7 @@ trait HasPermissions
      *
      * @return bool
      */
-    public function cannot(string $permission) : bool
+    public function cannot(string $permission): bool
     {
         return !$this->can($permission);
     }
@@ -54,7 +58,7 @@ trait HasPermissions
      *
      * @return mixed
      */
-    public function isAdministrator() : bool
+    public function isAdministrator(): bool
     {
         return $this->isRole('administrator');
     }
@@ -66,7 +70,7 @@ trait HasPermissions
      *
      * @return mixed
      */
-    public function isRole(string $role) : bool
+    public function isRole(string $role): bool
     {
         return $this->roles->pluck('slug')->contains($role);
     }
@@ -78,7 +82,7 @@ trait HasPermissions
      *
      * @return mixed
      */
-    public function inRoles(array $roles = []) : bool
+    public function inRoles(array $roles = []): bool
     {
         return $this->roles->pluck('slug')->intersect($roles)->isNotEmpty();
     }
@@ -90,7 +94,7 @@ trait HasPermissions
      *
      * @return bool
      */
-    public function visible(array $roles = []) : bool
+    public function visible(array $roles = []): bool
     {
         if (empty($roles)) {
             return true;
@@ -106,10 +110,8 @@ trait HasPermissions
      *
      * @return void
      */
-    protected static function boot()
+    protected static function bootHasPermissions()
     {
-        parent::boot();
-
         static::deleting(function ($model) {
             $model->roles()->detach();
 

@@ -1,6 +1,6 @@
 # Custom authentication
 
-If you do not use the `laravel-admin` built-in authentication login logic, you can refer to the following way to customize the login authentication logic.
+If you do not use the `backport` built-in authentication login logic, you can refer to the following way to customize the login authentication logic.
 
 First of all, you need define a `User provider`, used to obtain the user identity, such as `app/Providers/CustomUserProvider.php`:
 
@@ -89,7 +89,7 @@ class AuthServiceProvider extends ServiceProvider
 }
 ```
 
-Finally modify the configuration, open `config/admin.php`, find the `auth` part:
+Finally modify the configuration, open `config/backport.php`, find the `auth` part:
 
 ```php
     'auth' => [

@@ -2,7 +2,6 @@
 
 namespace DanSketic\Backport\Console;
 
-use DanSketic\Backport\Backport;
 use Illuminate\Console\Command;
 
 class ExportSeedCommand extends Command
@@ -13,14 +12,15 @@ class ExportSeedCommand extends Command
      * @var string
      */
     protected $signature = 'admin:export-seed {classname=AdminTablesSeeder}
-                                              {--users : add to seed users tables}';
+                                              {--users : add to seed users tables}
+                                              {--except-fields=id,created_at,updated_at : except fields}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Export seed a backport database tables menu, roles and permissions';
+    protected $description = 'Export seed a Backport database tables menu, roles and permissions';
 
     /**
      * Execute the console command.
@@ -30,10 +30,10 @@ class ExportSeedCommand extends Command
     public function handle()
     {
         $name = $this->argument('classname');
-        $exceptFields = [];
+        $exceptFields = explode(',', $this->option('except-fields'));
         $exportUsers = $this->option('users');
 
-        $seedFile = $this->laravel->databasePath().'/seeds/'.$name.'.php';
+        $seedFile = $this->laravel->databasePath().'/seeders/'.$name.'.php';
         $contents = $this->getStub('AdminTablesSeeder');
 
         $replaces = [

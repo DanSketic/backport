@@ -99,6 +99,10 @@ return [
         'filter_clear'       => 'Mutasd az összeset',
         'filter_placeholder' => 'Szűrő',
     ],
+    'grid_items_selected'    => '{n} elem kiválasztva',
 
     'menu_titles' => [],
+    'prev'                   => 'Előző',
+    'next'                   => 'Következő',
+    'quick_create'           => 'Gyors létrehozás',
 ];

@@ -1,65 +1,8 @@
-{{-- begin: Header
-<div id="bp_header" class="bp-header bp-grid__item " data-kheader-minimize="on">
-    {{-- begin: Header title
-    <div class="bp-header__title">
-        {{-- Title and description
-        <h3 class="bp-header__title-title">
-            {{ $header ?: trans('admin.title') }} {{-- <small>{{ $description ?: trans('admin.description') }}</small>
-        </h3> --}}
-        {{-- begin: Breadcrumbs
-        <div class="bp-header__title-breadcrumbs">
-            @if ($breadcrumb)
-                <a href="{{ admin_url('/') }}" class="bp-header__title-breadcrumb-home"><i class="flaticon-home-2"></i></a>
-                @foreach($breadcrumb as $item)
-                    @if($loop->last)
-                        <span class="bp-header__title-breadcrumb-separator"></span>
-                        <a href="" class="bp-header__title-breadcrumb-link">
-                            @if (array_has($item, 'icon'))
-                                <i class="fa fa-{{ $item['icon'] }}"></i>
-                            @endif
-                            {{ $item['text'] }}
-                        </a>
-                    @else
-                        <span class="bp-header__title-breadcrumb-separator"></span>
-                        <a href="{{ admin_url(array_get($item, 'url')) }}" class="bp-header__title-breadcrumb-link">
-                            @if (array_has($item, 'icon'))
-                                <i class="fa fa-{{ $item['icon'] }}"></i>
-                            @endif
-                            {{ $item['text'] }}
-                        </a>
-                    @endif
-                @endforeach
-            @elseif(config('backport.enable_default_breadcrumb'))
-                <a href="{{ admin_url('/') }}" class="bp-header__title-breadcrumb-home"><i class="flaticon-home-2"></i></a>
-                @for($i = 2; $i <= count(Request::segments()); $i++)
-                    <span class="bp-header__title-breadcrumb-separator"></span>
-                    <span  class="bp-header__title-breadcrumb-link">
-                        {{ucfirst(Request::segment($i))}}
-                    </span>
-                @endfor
-            @endif
-        </div>
-        {{-- end: Breadcrumbs
-    </div>
-    {{-- end: Header title
-
-    <!-- begin:: Header Topbar -->
-    <div class="bp-header__topbar">
-
-
-    </div>
-
-    <!-- end:: Header Topbar -->
-</div>
-{{-- end: Header --}}
-
-
-{{--
 <!-- Main Header -->
 <header class="main-header">
 
     <!-- Logo -->
-    <a href="{{ admin_base_path('/') }}" class="logo">
+    <a href="{{ admin_url('/') }}" class="logo">
         <!-- mini logo for sidebar mini 50x50 pixels -->
         <span class="logo-mini">{!! config('backport.logo-mini', config('backport.name')) !!}</span>
         <!-- logo for regular state and mobile devices -->
@@ -72,8 +15,9 @@
         <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
             <span class="sr-only">Toggle navigation</span>
         </a>
-
+        <ul class="nav navbar-nav hidden-sm visible-lg-block">
         {!! Backport::getNavbar()->render('left') !!}
+        </ul>
 
         <!-- Navbar Right Menu -->
         <div class="navbar-custom-menu">
@@ -102,10 +46,10 @@
                         </li>
                         <li class="user-footer">
                             <div class="pull-left">
-                                <a href="{{ admin_base_path('auth/setting') }}" class="btn btn-default btn-flat">{{ trans('admin.setting') }}</a>
+                                <a href="{{ admin_url('auth/setting') }}" class="btn btn-default btn-flat">{{ trans('admin.setting') }}</a>
                             </div>
                             <div class="pull-right">
-                                <a href="{{ admin_base_path('auth/logout') }}" class="btn btn-default btn-flat">{{ trans('admin.logout') }}</a>
+                                <a href="{{ admin_url('auth/logout') }}" class="btn btn-default btn-flat">{{ trans('admin.logout') }}</a>
                             </div>
                         </li>
                     </ul>
@@ -114,9 +58,7 @@
                 {{--<li>--}}
                     {{--<a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>--}}
                 {{--</li>--}}
-                {{--
             </ul>
         </div>
     </nav>
 </header>
- --}}

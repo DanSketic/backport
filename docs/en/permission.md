@@ -1,10 +1,10 @@
 # Access Control
 
-`laravel-admin` has built-in` RBAC` permissions control module, expand the left sidebar `Auth`, you can see user, permissions and roles management panel, the use of permissions control as follows:
+`backport` has built-in` RBAC` permissions control module, expand the left sidebar `Auth`, you can see user, permissions and roles management panel, the use of permissions control as follows:
 
 ## Route permission
 
-In the `laravel-admin 1.5`, the permissions and routes are bound together, in the edit permission page which set the current permissions can access the routing, in the `HTTP method` select box to select the method of access to the path, in the `HTTP path` textarea fill in the path to access.
+In the `backport 1.5`, the permissions and routes are bound together, in the edit permission page which set the current permissions can access the routing, in the `HTTP method` select box to select the method of access to the path, in the `HTTP path` textarea fill in the path to access.
 
 For example, to add a permission, the permission can access the path `/admin/users` in GET method, then `HTTP method` select `GET`, `HTTP path` fill in `/users`.
 
@@ -22,7 +22,7 @@ At first open `http://localhost/admi/auth/permissions`, fill up slug field with 
 
 In your controller action: 
 ```php
-use Encore\Admin\Auth\Permission;
+use DanSketic\Backport\Auth\Permission;
 
 class PostController extends Controller
 {
@@ -41,13 +41,13 @@ If you want to control the page elements of the user's display, then you need to
 $grid->actions(function ($actions) {
 
     // The roles with this permission will not able to see the delete button in actions column.
-    if (!Admin::user()->can('delete-image')) {
+    if (!Backport::user()->can('delete-image')) {
         $actions->disableDelete();
     }
 });
 
 // Only roles with permission `view-title-column` can view this column in grid
-if (Admin::user()->can('view-title-column')) {
+if (Backport::user()->can('view-title-column')) {
     $grid->column('title');
 }
 ```
@@ -56,47 +56,47 @@ if (Admin::user()->can('view-title-column')) {
 
 Get current user object.
 ```php
-Admin::user();
+Backport::user();
 ```
 
 Get current user id.
 ```php
-Admin::user()->id;
+Backport::user()->id;
 ```
 
 Get user's roles.
 ```php
-Admin::user()->roles;
+Backport::user()->roles;
 ```
 
 Get user's permissions.
 ```php
-Admin::user()->permissions;
+Backport::user()->permissions;
 ```
 
 User is role.
 ```php
-Admin::user()->isRole('developer');
+Backport::user()->isRole('developer');
 ```
 
 User has permission.
 ```php
-Admin::user()->can('create-post');
+Backport::user()->can('create-post');
 ```
 
 User don't has permission.
 ```php
-Admin::user()->cannot('delete-post');
+Backport::user()->cannot('delete-post');
 ```
 
 Is user super administrator.
 ```php
-Admin::user()->isAdministrator();
+Backport::user()->isAdministrator();
 ```
 
 Is user in one of roles.
 ```php
-Admin::user()->inRoles(['editor', 'developer']);
+Backport::user()->inRoles(['editor', 'developer']);
 ```
 
 ## Permission middleware
@@ -107,7 +107,7 @@ You can use permission middleware in the routes to control the routing permissio
 
 // Allow roles `administrator` and `editor` access the routes under group.
 Route::group([
-    'middleware' => 'admin.permission:allow,administrator,editor',
+    'middleware' => 'backport.permission:allow,administrator,editor',
 ], function ($router) {
 
     $router->resource('users', UserController::class);
@@ -117,7 +117,7 @@ Route::group([
 
 // Deny roles `developer` and `operator` access the routes under group.
 Route::group([
-    'middleware' => 'admin.permission:deny,developer,operator',
+    'middleware' => 'backport.permission:deny,developer,operator',
 ], function ($router) {
 
     $router->resource('users', UserController::class);
@@ -127,7 +127,7 @@ Route::group([
 
 // User has permission `edit-post`、`create-post` and `delete-post` can access routes under group.
 Route::group([
-    'middleware' => 'admin.permission:check,edit-post,create-post,delete-post',
+    'middleware' => 'backport.permission:check,edit-post,create-post,delete-post',
 ], function ($router) {
 
     $router->resource('posts', PostController::class);

@@ -1,41 +1,34 @@
-<div class="bp-pagination d-flex justify-content-between align-items-center">
+<ul class="pagination pagination-sm no-margin pull-right">
+    <!-- Previous Page Link -->
+    @if ($paginator->onFirstPage())
+    <li class="page-item disabled"><span class="page-link">&laquo;</span></li>
+    @else
+    <li class="page-item"><a class="page-link" href="{{ $paginator->previousPageUrl() }}" rel="prev">&laquo;</a></li>
+    @endif
 
-    <div>
-        <!-- Previous Page Link -->
-        @if ($paginator->onFirstPage())
-        <div class="bp-pagination-item "><span class="bp-pagination-link bp-previous border-right disabled">&laquo;</span></div>
-        @else
-        <div class="bp-pagination-item"><a class="bp-pagination-link bp-previous border-right" href="{{ $paginator->previousPageUrl() }}" rel="prev">&laquo;</a></div>
-        @endif
-    </div>
+    <!-- Pagination Elements -->
+    @foreach ($elements as $element)
+    <!-- "Three Dots" Separator -->
+    @if (is_string($element))
+    <li class="page-item disabled"><span class="page-link">{{ $element }}</span></li>
+    @endif
 
-    <div class="d-flex justify-content-center flex-wrap">
-        <!-- Pagination Elements -->
-        @foreach ($elements as $element)
-        <!-- "Three Dots" Separator -->
-        @if (is_string($element))
-        <span class="bp-pagination-item "><span class="bp-pagination-link disabled">{{ $element }}</span></span>
-        @endif
+    <!-- Array Of Links -->
+    @if (is_array($element))
+    @foreach ($element as $page => $url)
+    @if ($page == $paginator->currentPage())
+    <li class="page-item active"><span class="page-link">{{ $page }}</span></li>
+    @else
+    <li class="page-item"><a class="page-link" href="{{ $url }}">{{ $page }}</a></li>
+    @endif
+    @endforeach
+    @endif
+    @endforeach
 
-        <!-- Array Of Links -->
-        @if (is_array($element))
-        @foreach ($element as $page => $url)
-        @if ($page == $paginator->currentPage())
-        <span class="bp-pagination-item"><span class="bp-pagination-link active">{{ $page }}</span></span>
-        @else
-        <span class="bp-pagination-item"><a class="bp-pagination-link" href="{{ $url }}">{{ $page }}</a></span>
-        @endif
-        @endforeach
-        @endif
-        @endforeach
-    </div>
-
-    <div>
-        <!-- Next Page Link -->
-        @if ($paginator->hasMorePages())
-        <div class="bp-pagination-item"><a class="bp-pagination-link bp-next border-left" href="{{ $paginator->nextPageUrl() }}" rel="next">&raquo;</a></div>
-        @else
-        <div class="bp-pagination-item "><span class="bp-pagination-link bp-next border-left disabled">&raquo;</span></div>
-        @endif
-    </div>
-</div>
+    <!-- Next Page Link -->
+    @if ($paginator->hasMorePages())
+    <li class="page-item"><a class="page-link" href="{{ $paginator->nextPageUrl() }}" rel="next">&raquo;</a></li>
+    @else
+    <li class="page-item disabled"><span class="page-link">&raquo;</span></li>
+    @endif
+</ul>

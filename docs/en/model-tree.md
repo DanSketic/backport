@@ -25,13 +25,12 @@ The corresponding model is `app/Models/Category.php`:
 
 namespace App\Models\Demo;
 
-use Encore\Admin\Traits\AdminBuilder;
-use Encore\Admin\Traits\ModelTree;
+use DanSketic\Backport\Traits\ModelTree;
 use Illuminate\Database\Eloquent\Model;
 
 class Category extends Model
 {
-    use ModelTree, AdminBuilder;
+    use ModelTree;
 
     protected $table = 'demo_categories';
 }
@@ -44,13 +43,12 @@ Table structure in the three fields `parent_id`,` order`, `title` field name can
 
 namespace App\Models\Demo;
 
-use Encore\Admin\Traits\AdminBuilder;
-use Encore\Admin\Traits\ModelTree;
+use DanSketic\Backport\Traits\ModelTree;
 use Illuminate\Database\Eloquent\Model;
 
 class Category extends Model
 {
-    use ModelTree, AdminBuilder;
+    use ModelTree;
 
     protected $table = 'demo_categories';
 
@@ -76,11 +74,11 @@ namespace App\Admin\Controllers\Demo;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
-use Encore\Admin\Form;
-use Encore\Admin\Facades\Admin;
-use Encore\Admin\Layout\Content;
-use Encore\Admin\Controllers\ModelForm;
-use Encore\Admin\Tree;
+use DanSketic\Backport\Form;
+use DanSketic\Backport\Facades\Backport;
+use DanSketic\Backport\Layout\Content;
+use DanSketic\Backport\Controllers\ModelForm;
+use DanSketic\Backport\Tree;
 
 class CategoryController extends Controller
 {
@@ -88,7 +86,7 @@ class CategoryController extends Controller
     
     public function index()
     {
-        return Admin::content(function (Content $content) {
+        return Backport::content(function (Content $content) {
             $content->header('Categories');
             $content->body(Category::tree());
         });
